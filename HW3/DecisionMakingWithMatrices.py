@@ -11,38 +11,115 @@
 
 
 # You asked your 10 work friends to answer a survey. They gave you back the following dictionary object.
-people = {'Jane': {'willingness to travel': 1,
-                  'desire for new experience':0,
-                  'cost':0,
-                  'indian food':1,
-                  'Mexican food':1,
-                  'hipster points':3,
-                  'vegetarian': 3,
-                  },
 
-          }
+# the results of a survey about lunch preferences are captured in the following dictionary on a scale from 1 to 5 with each feature defined as:
+
+# travelDistance: how far are they willing to travel
+#       0: would rather stay in the building // 5: willing to drive 30+ minutes
+
+# cost: how much are they willing to pay
+#       0: a Cookout tray (NC thing) // 5: Michellin star tasting menu
+
+# instagrammable: how important is the chance of a cool instagram pic
+#       0: someone who has never had a social media account // 5:  Bon Appetit social media coordinator
+
+# busy: a measure of a person's aversion to crowds or lines
+#       0: a hermit // 5: Diddy in the club
+
+# vegetarian: how important are vegetarian options
+#       0: Ron Swanson // 5:'Vegan' tattooed on their chest
+
+# institution: measure of this persons affinity to local institutions
+#       0: millennial just looking for a juice bar // 5: atenured professor who get's greeted with a tea
+
+
+
+def createPeople(dictName, numObs, min_travel = 0, max_travel = 5,min_cost = 0, max_cost = 5, min_gram = 0, max_gram = 5,
+                    min_busy = 0, max_busy = 5,min_vege = 0, max_vege = 5, min_institute = 0, max_institute = 5):
+    '''
+        Create random 'survey' results for fake people
+            dictName : dictionary you want to output
+            numObs : how many fake survey obs you want
+            min_* : the bottom of the range you want to populate (int)
+            max_*: the top of the range you to populate that value for (int)
+        return
+            dictName : python dictionary
+    '''
+    for i in range(numObs):
+
+        name = names.get_first_name() #generate a random name
+        dictName[name] = {'travelDistance': random.randint(min_travel,max_travel),
+                          'cost':random.randint(min_cost,max_cost),
+                          'instagrammable':random.randint(min_gram,max_gram),
+                          'busy':random.randint(min_busy,max_busy),
+                          'vegetarian':random.randint(min_vege,max_vege),
+                          'institution':random.randint(min_institute,max_institute)
+                           }
+    return dictName
+
+#create a random 10 people
+people = {}
+createPeople(people, 10)
+pNames = list(people.keys())  # get the names of the people
 
 # Transform the user data into a matrix(M_people). Keep track of column and row ids.
+def matrixDict(dictName, names):
+    varNames = list(dictName[names[0]].keys())  # get the survey var names
+    dtype = dict(names = varNames, formats=(['i4'] * len(varNames))) #structure for array
 
+    M = np.zeros(len(names), dtype = dtype)
+
+    for n in enumerate(names):
+        M[n[0]] = tuple(dictName[n[1]].values())
+
+    return M
+
+M_people = matrixDict(people, pNames)
+print(M_restaurants)
+print(M_restaurants.dtype)
 
 # Next you collected data from an internet website. You got the following information.
 
-resturants  = {'flacos':{'distance' :
-                        'novelty' :
-                        'cost':
-                        'average rating':
-                        'cuisine':
-                        'vegetarian'
-                        }
+def createRestaurants(dictName, names, min_travel = 0, max_travel = 5,min_cost = 0, max_cost = 5, min_gram = 0, max_gram = 5,
+                    min_busy = 0, max_busy = 5,min_vege = 0, max_vege = 5, min_institute = 0, max_institute = 5):
+    '''
+        Create random 'survey' results for fake restaurants
+            dictName : dictionary you want to output
+            numObs : how many fake survey obs you want
+            min_* : the bottom of the range you want to populate (int)
+            max_*: the top of the range you to populate that value for (int)
+        return
+            dictName : python dictionary
+    '''
+    for name in names:
+        dictName[name] = {'travelDistance': random.randint(min_travel,max_travel),
+                          'cost':random.randint(min_cost,max_cost),
+                          'instagrammable':random.randint(min_gram,max_gram),
+                          'busy':random.randint(min_busy,max_busy),
+                          'vegetarian':random.randint(min_vege,max_vege),
+                          'institution':random.randint(min_institute,max_institute)
+                           }
+    return dictName
 
-}
+#create a random 10 restaurants
+restaurants = {}
+rNames = ['The Caribbean Flower', 'The Coriander Bites', 'The Indian Lane', 'The Italian Empress',
+          'The Juniper Window', 'Chance', 'Bounty', 'Recess', 'Sunset', 'Lemon Grass'] #generated from https://www.fantasynamegenerators.com/restaurant-names.php
+
+createRestaurants(restaurants, rNames)
 
 
-# Transform the restaurant data into a matrix(M_resturants) use the same column index.
+# Transform the restaurant data into a matrix(M_restaurants) use the same column index.
+
+M_restaurants = matrixDict(restaurants, rNames)
+
+print(M_restaurants)
+print(M_restaurants.dtype)
 
 # The most imporant idea in this project is the idea of a linear combination.
 
-# Informally describe what a linear combination is and how it will relate to our resturant matrix.
+# Informally describe what a linear combination is and how it will relate to our restaurant matrix.
+
 
 # Choose a person and compute(using a linear combination) the top restaurant for them.  What does each entry in the resulting vector represent.
 
