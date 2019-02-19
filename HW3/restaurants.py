@@ -1,6 +1,4 @@
-
 import random
-import names
 import numpy as np
 
 # the results of a survey about lunch preferences are captured in the following dictionary on a scale from 1 to 5 with each feature defined as:
@@ -26,10 +24,10 @@ import numpy as np
 
 
 
-def createPeople(dictName, numObs, min_travel = 0, max_travel = 5,min_cost = 0, max_cost = 5, min_gram = 0, max_gram = 5,
+def createRestaurants(dictName, names, min_travel = 0, max_travel = 5,min_cost = 0, max_cost = 5, min_gram = 0, max_gram = 5,
                     min_busy = 0, max_busy = 5,min_vege = 0, max_vege = 5, min_institute = 0, max_institute = 5):
     '''
-        Create random 'survey' results for fake people
+        Create random 'survey' results for fake restaurants
             dictName : dictionary you want to output
             numObs : how many fake survey obs you want
             min_* : the bottom of the range you want to populate (int)
@@ -37,9 +35,7 @@ def createPeople(dictName, numObs, min_travel = 0, max_travel = 5,min_cost = 0, 
         return
             dictName : python dictionary
     '''
-    for i in range(numObs):
-
-        name = names.get_first_name() #generate a random name
+    for name in names:
         dictName[name] = {'travelDistance': random.randint(min_travel,max_travel),
                           'cost':random.randint(min_cost,max_cost),
                           'instagrammable':random.randint(min_gram,max_gram),
@@ -49,10 +45,12 @@ def createPeople(dictName, numObs, min_travel = 0, max_travel = 5,min_cost = 0, 
                            }
     return dictName
 
-#create a random 10 people
-people = {}
-createPeople(people, 10)
-pNames = list(people.keys())  # get the names of the people
+#create a random 10 restaurants
+restaurants = {}
+rNames = ['The Caribbean Flower', 'The Coriander Bites', 'The Indian Lane', 'The Italian Empress',
+          'The Juniper Window', 'Chance', 'Bounty', 'Recess', 'Sunset', 'Lemon Grass'] #generated from https://www.fantasynamegenerators.com/restaurant-names.php
+
+createRestaurants(restaurants, rNames)
 
 def matrixDict(dictName, names):
     varNames = list(dictName[names[0]].keys())  # get the survey var names
@@ -66,13 +64,7 @@ def matrixDict(dictName, names):
     return M
 
 
-M_people = matrixDict(people, pNames)
+M_restaurants = matrixDict(restaurants, rNames)
 
-print(M_people)
-print(M_people.dtype)
-
-
-
-
-
-
+print(M_restaurants)
+print(M_restaurants.dtype)
