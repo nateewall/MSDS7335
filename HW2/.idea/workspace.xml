@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f0299bd5-d5c0-4afe-bbea-2e84f09f2793" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JCodeExploration.py" beforeDir="false" afterPath="$PROJECT_DIR$/JCodeExploration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../HW3/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../HW3/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="f0299bd5-d5c0-4afe-bbea-2e84f09f2793" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,22 +13,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/JCodeExploration.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="345" column="22" lean-forward="true" selection-start-line="345" selection-start-column="22" selection-end-line="345" selection-end-column="22" />
+            <state relative-caret-position="96">
+              <caret line="328" column="46" lean-forward="true" selection-start-line="328" selection-start-column="46" selection-end-line="328" selection-end-column="46" />
               <folding>
                 <element signature="e#0#45#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../HW1/NWall_DeathToGridSearch.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="945">
-              <caret line="108" column="78" selection-start-line="108" selection-start-column="78" selection-end-line="108" selection-end-column="78" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -232,8 +216,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/JCodeExploration.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="345" column="22" lean-forward="true" selection-start-line="345" selection-start-column="22" selection-end-line="345" selection-end-column="22" />
+        <state relative-caret-position="96">
+          <caret line="328" column="46" lean-forward="true" selection-start-line="328" selection-start-column="46" selection-end-line="328" selection-end-column="46" />
           <folding>
             <element signature="e#0#45#0" expanded="true" />
           </folding>
