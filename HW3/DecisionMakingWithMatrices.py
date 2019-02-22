@@ -1,41 +1,42 @@
 # Decision making with Matrices
-
 # This is a pretty simple assingment.  You will do something you do everyday, but today it will be with matrix manipulations.
-
 # The problem is: you and your work firends are trying to decide where to go for lunch. You have to pick a resturant thats best for everyone.  Then you should decided if you should split into two groups so eveyone is happier.
-
 # Displicte the simplictiy of the process you will need to make decisions regarding how to process the data.
-
 # This process was thoughly investigated in the operation research community.  This approah can prove helpful on any number of decsion making problems that are currently not leveraging machine learning.
 
 
+import random
+import names
+import numpy as np
 
-# You asked your 10 work friends to answer a survey. They gave you back the following dictionary object.
+random.seed(3)
 
+print("You asked your 10 work friends to answer a survey. They gave you back the following dictionary object.")
+print('')
 # the results of a survey about lunch preferences are captured in the following dictionary on a scale from 1 to 5 with each feature defined as:
 
 # travelDistance: how far are they willing to travel
-#       0: would rather stay in the building // 5: willing to drive 30+ minutes
+#       10: would rather stay in the building // 1: willing to drive 30+ minutes
 
 # cost: how much are they willing to pay
-#       0: a Cookout tray (NC thing) // 5: Michellin star tasting menu
+#       10: a Cookout tray (NC thing) // 1: Michellin star tasting menu
 
 # instagrammable: how important is the chance of a cool instagram pic
-#       0: someone who has never had a social media account // 5:  Bon Appetit social media coordinator
+#       10: someone who has never had a social media account // 1:  Bon Appetit social media coordinator
 
 # busy: a measure of a person's aversion to crowds or lines
-#       0: a hermit // 5: Diddy in the club
+#       10: a hermit // 1: Diddy in the club
 
 # vegetarian: how important are vegetarian options
-#       0: Ron Swanson // 5:'Vegan' tattooed on their chest
+#       10: Ron Swanson // 1:'Vegan' tattooed on their chest
 
 # institution: measure of this persons affinity to local institutions
-#       0: millennial just looking for a juice bar // 5: atenured professor who get's greeted with a tea
+#       10: millennial just looking for a juice bar // 1: tenured professor who get's greeted with a tea
 
 
 
-def createPeople(dictName, numObs, min_travel = 0, max_travel = 5,min_cost = 0, max_cost = 5, min_gram = 0, max_gram = 5,
-                    min_busy = 0, max_busy = 5,min_vege = 0, max_vege = 5, min_institute = 0, max_institute = 5):
+def createPeople(dictName, numObs, min_travel = 1, max_travel = 10, min_cost = 1, max_cost = 10, min_gram = 1, max_gram = 10,
+                 min_busy = 1, max_busy = 10, min_vege = 1, max_vege = 10, min_institute = 1, max_institute = 10):
     '''
         Create random 'survey' results for fake people
             dictName : dictionary you want to output
@@ -57,12 +58,14 @@ def createPeople(dictName, numObs, min_travel = 0, max_travel = 5,min_cost = 0, 
                            }
     return dictName
 
-#create a random 10 people
+#"create a random 10 people"
 people = {}
 createPeople(people, 10)
 pNames = list(people.keys())  # get the names of the people
-
-# Transform the user data into a matrix(M_people). Keep track of column and row ids.
+print(people)
+print('')
+print("----------------------------------------------------------------------------------------------------")
+print("Transform the user data into a matrix(M_people). Keep track of column and row ids.")
 def matrixDict(dictName, names):
     varNames = list(dictName[names[0]].keys())  # get the survey var names
     dtype = dict(names = varNames, formats=(['i4'] * len(varNames))) #structure for array
@@ -75,13 +78,14 @@ def matrixDict(dictName, names):
     return M
 
 M_people = matrixDict(people, pNames)
-print(M_restaurants)
-print(M_restaurants.dtype)
+print(M_people)
+print('')
 
-# Next you collected data from an internet website. You got the following information.
+print("----------------------------------------------------------------------------------------------------")
+print("Next you collected data from an internet website. You got the following information.")
 
-def createRestaurants(dictName, names, min_travel = 0, max_travel = 5,min_cost = 0, max_cost = 5, min_gram = 0, max_gram = 5,
-                    min_busy = 0, max_busy = 5,min_vege = 0, max_vege = 5, min_institute = 0, max_institute = 5):
+def createRestaurants(dictName, names, min_travel = 1, max_travel = 10,min_cost = 1, max_cost = 10, min_gram = 1, max_gram = 10,
+                    min_busy = 1, max_busy = 10, min_vege = 1, max_vege = 10, min_institute = 1, max_institute = 10):
     '''
         Create random 'survey' results for fake restaurants
             dictName : dictionary you want to output
@@ -101,29 +105,54 @@ def createRestaurants(dictName, names, min_travel = 0, max_travel = 5,min_cost =
                            }
     return dictName
 
-#create a random 10 restaurants
+#"create a random 10 restaurants"
 restaurants = {}
 rNames = ['The Caribbean Flower', 'The Coriander Bites', 'The Indian Lane', 'The Italian Empress',
           'The Juniper Window', 'Chance', 'Bounty', 'Recess', 'Sunset', 'Lemon Grass'] #generated from https://www.fantasynamegenerators.com/restaurant-names.php
 
 createRestaurants(restaurants, rNames)
-
-
-# Transform the restaurant data into a matrix(M_restaurants) use the same column index.
-
+print(restaurants)
+print('')
+print("----------------------------------------------------------------------------------------------------")
+print("Transform the restaurant data into a matrix(M_restaurants) use the same column index.")
+print('')
 M_restaurants = matrixDict(restaurants, rNames)
 
 print(M_restaurants)
-print(M_restaurants.dtype)
+print('')
 
-# The most imporant idea in this project is the idea of a linear combination.
+# print("----------------------------------------------------------------------------------------------------")
+# print("The most imporant idea in this project is the idea of a linear combination.")
+# print('')
+# print("Informally describe what a linear combination is and how it will relate to our restaurant matrix.")
+# print('')
+# print('Linear combination is the idea that given a matrix of data and corresponding weights of each feature of that matrix we can determine optimal decision/ranking')
+# print('')
+# print('Alternatively, given a matrix or vector and the scores/rankings we can determine the weights that would produce that output')
+# print('')
+# print('So for our examples given the characteristics of several restaurants and the weights each person places on those characteristics we can determine an optimal restaurant')
+# print('')
+# print('Similarly if we are given those restaurant charactertics and the all the peoples rankings of the rest. we can determine everyones preferences')
+# print('')
 
-# Informally describe what a linear combination is and how it will relate to our restaurant matrix.
+print("----------------------------------------------------------------------------------------------------")
+print("Choose a person and compute(using a linear combination) the top restaurant for them.  What does each entry in the resulting vector represent.")
+# x.view(np.float64).reshape(x.shape + (-1,))
+R = M_restaurants.view(int).reshape(len(M_restaurants),-1)
+P = M_people.view(int).reshape(len(M_people),-1)
 
+person0score = np.dot(R, P[0])
 
-# Choose a person and compute(using a linear combination) the top restaurant for them.  What does each entry in the resulting vector represent.
+restScore = sorted(zip(rNames, map(lambda x: round(x, 4), list(person0score))), reverse=True, key = lambda t: t[1])
+print('')
+print("The top restaurant for %s and score is:" % list(people.keys())[0])
+print(restScore[0])
+print('')
+print('Each score in the resulting vector represents their compatibility with that restaurant based on the similarity between their preferences and the restaurants characteristics")
+print('')
+print("----------------------------------------------------------------------------------------------------")
+print("Next compute a new matrix (M_usr_x_rest  i.e. an user by restaurant) from all people.  What does the a_ij matrix represent?")
 
-# Next compute a new matrix (M_usr_x_rest  i.e. an user by restaurant) from all people.  What does the a_ij matrix represent?
 
 # Sum all columns in M_usr_x_rest to get optimal restaurant for all users.  What do the entry’s represent?
 
