@@ -1,0 +1,101 @@
+1. J-codes are procedure codes that start with the letter 'J'.
+
+-------------------------------------------------------------------------------------------
+A. Find the number of claim lines that have J-codes.
+There are 202 distinct J-codes representing 51029 total claim lines
+
+-------------------------------------------------------------------------------------------
+B. How much was paid for J-codes to providers for 'in network' claims?
+There are $ 2417220.96 in Provider Payouts
+
+-------------------------------------------------------------------------------------------
+C. What are the top five J-codes based on the payment to providers?
+Below are the the top five JCodes by the amount paid to providers:
+"J1745" = 434232.08
+"J0180" = 299776.56
+"J9310" = 168630.87
+"J3490" = 90249.91
+
+
+2. For the following exercises, determine the number of providers that were paid for at least one J-code.
+
+-------------------------------------------------------------------------------------------
+A. Create a scatter plot that displays the number of unpaid claims
+[('"FA0001387001"', 74, 8710), ('"FA0001387002"', 1786, 9799), ('"FA0001389001"', 895, 13947), ('"FA0001389003"', 8, 539), ('"FA0001411001"', 1228, 6703), ('"FA0001411003"', 4, 67), ('"FA0001774001"', 302, 2545), ('"FA0004551001"', 415, 322), ('"FA1000014001"', 561, 601), ('"FA1000014002"', 5, 49), ('"FA1000015001"', 740, 1170), ('"FA1000015002"', 43, 449), ('"FA1000016001"', 7, 46)]
+Plot provides a better visual explanation of the data
+
+-------------------------------------------------------------------------------------------
+B. What insights can you suggest from the graph?
+
+There may be a positive linear trend although there are limited observations and there are some outliers.
+Provider FA0001387001 & FA1389001 appears to have a higher than expected amount of unpaid claims, although the reason cannot be determined from the available data
+Any additional insights from the graph would require understanding of other potential contributing factors
+-------------------------------------------------------------------------------------------
+C. Based on the graph, is the behavior of any of the providers concerning? Explain.
+
+Some of the providers with a high rate of unpaid claims are concerning.
+Specifically, FA0001387001 & FA1389001 as they appear to fail to pay out on the majority of their claims while also having the highest 2 of the highest volumes of claims.
+Some of the providers in the upper right quadrants may show higher number of unpaid claims.
+However, FA0001387001 appears to pay out ~1-2% of their total claims.
+Although, understanding all the additional confounding factors that may contribute to an unpaid claim is would be important to determine how concerning these volumes of unpaid claims are.
+
+
+3. Consider all claim lines with a J-code.
+-------------------------------------------------------------------------------------------
+A. What percentage of J-code claim lines were unpaid?
+Total J-codes = 51029
+Total Unpaid J-Codes = 44961
+Percent Un-paid = 88.1087224911325
+-------------------------------------------------------------------------------------------
+B. Create a model to predict when a J-code is unpaid. Explain why you choose the modeling approach.
+Before any modeling lets perform very basic EDA to understand what we can use and what we need to do to use it
+
+Based on a the plot in claim.sample.csv of missing or 0 values there are several potential features we may need to impute
+To better understand what we may impute with lets see what the most common classes are & numeric distribution.
+
+After the reviewing the plots produced for each variable we will begin by treating missing values as there own class
+Additionally, most of the numeric variables are index vars and we will not consider these in our model
+We will also weed out some of the categorical values with more than 20 dimensions
+
+Finally we are ready to start developing our model. We have chosen to train a random forest model with default parameters to begin.
+We have chosen this approach because it is more interpretable than some of the other methods. Considering this model reviews the status of insurance claims it is important to understand what features are driving our predictions
+
+For our modeling approach we will begin by one-hot encoding all our categorical features.
+Prior to one-hot encoding our matrix shape is:
+(51029,)
+After one-hot encoding our matrix shape is:
+(51029, 62)
+We have also chosen to use split our training data & test data using an 80/20 split
+The training features set dimensions are:
+(40792, 62)
+The training target set dimensions are:
+(40792,)
+
+The test features set dimensions are:
+(10237, 62)
+The test target set dimensions are:
+(10237,)
+
+-------------------------------------------------------------------------------------------
+C. How accurate is your model at predicting unpaid claims?
+------------------------------------------
+Default Random Forest Results
+------------------------------------------
+Model Scoring
+Accuracy 0.9124743577219888
+f1_score: 0.950633608815427
+Precision: 0.9421207819154745
+Recall: 0.9593016790837318
+Confusion Matrix:
+[[ 714  530]
+ [ 366 8627]]
+
+Our precision for predicting unpaid claims is .94 which does show an improvement over the baseline of .88 shown above.
+
+------------------------------------------
+-------------------------------------------------------------------------------------------
+D. What data attributes are predominately influencing the rate of non-payment?
+Top 5 Features sorted by their score:
+[('ServiceCode_"OP7O"', 0.1593), ('ServiceCode_"SU7A"', 0.1364), ('LineOfBusinessID_"0013"', 0.0866), ('ClaimType_"E"', 0.0528)]
+
+Based on this some of the most influential features are the Service codes OP7O & SU7A, the line of business 0013, and Claim Type 'E'.
