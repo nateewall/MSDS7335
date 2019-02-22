@@ -51,52 +51,7 @@ B. Create a model to predict when a J-code is unpaid. Explain why you choose the
 Before any modeling lets perform very basic EDA to understand what we can use and what we need to do to use it
 
 Based on a the plot in claim.sample.csv of missing or 0 values there are several potential features we may need to impute
-To better understand what we may impute with lets see what the most common classes are & numeric distribution
-|S14
-There are 15 total classes in ProviderID
-|S6
-There are 6 total classes in LineOfBusinessID
-|S6
-There are 11 total classes in RevenueCode
-|S6
-There are 12 total classes in ServiceCode
-|S4
-There are 2 total classes in PlaceOfServiceCode
-|S9
-There are 202 total classes in ProcedureCode
-|S7
-There are 1438 total classes in DiagnosisCode
-float64
-Below is the mean, median, & standard deviation for ClaimChargeAmount
-284.92523852936563 147.8437 1398.3348832593083
-|S3
-There are 3 total classes in PriceIndex
-|S3
-There are 3 total classes in InOutOfNetwork
-|S3
-There are 4 total classes in ReferenceIndex
-|S3
-There are 4 total classes in PricingIndex
-|S3
-There are 3 total classes in CapitationIndex
-float64
-Below is the mean, median, & standard deviation for SubscriberPaymentAmount
-0.0034120578494581514 0.0 0.7707626463808451
->i4
-Below is the mean, median, & standard deviation for GroupIndex
-20395.598639989024 572.0 22669.331401084397
->i4
-Below is the mean, median, & standard deviation for SubscriberIndex
-39153815.69401713 37042600.0 27836756.35763011
->i4
-Below is the mean, median, & standard deviation for SubgroupIndex
-5042.657410492073 0.0 13267.094609142754
-|S3
-There are 2 total classes in ClaimType
-|S3
-There are 2 total classes in ClaimSubscriberType
-|S3
-There are 3 total classes in ClaimPrePrinceIndex
+To better understand what we may impute with lets see what the most common classes are & numeric distribution.
 
 After the reviewing the plots produced for each variable we will begin by treating missing values as there own class
 Additionally, most of the numeric variables are index vars and we will not consider these in our model
@@ -134,8 +89,13 @@ Recall: 0.9593016790837318
 Confusion Matrix:
 [[ 714  530]
  [ 366 8627]]
+
+Our precision for predicting unpaid claims is .94 which does show an improvement over the baseline of .88 shown above.
+
 ------------------------------------------
 -------------------------------------------------------------------------------------------
 D. What data attributes are predominately influencing the rate of non-payment?
 Top 5 Features sorted by their score:
 [('ServiceCode_"OP7O"', 0.1593), ('ServiceCode_"SU7A"', 0.1364), ('LineOfBusinessID_"0013"', 0.0866), ('ClaimType_"E"', 0.0528)]
+
+Based on this some of the most influential features are the Service codes OP7O & SU7A, the line of business 0013, and Claim Type 'E'.
