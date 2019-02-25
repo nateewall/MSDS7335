@@ -1,0 +1,217 @@
+You asked your 10 work friends to answer a survey. They gave you back the following dictionary object.
+
+{   'Cassandra': {   'busy': 8,
+                     'cost': 7,
+                     'instagrammable': 10,
+                     'institution': 6,
+                     'travelDistance': 7,
+                     'vegetarian': 3},
+    'Francis': {   'busy': 5,
+                   'cost': 10,
+                   'instagrammable': 5,
+                   'institution': 2,
+                   'travelDistance': 4,
+                   'vegetarian': 2},
+    'Jaime': {   'busy': 9,
+                 'cost': 3,
+                 'instagrammable': 6,
+                 'institution': 10,
+                 'travelDistance': 10,
+                 'vegetarian': 10},
+    'James': {   'busy': 7,
+                 'cost': 4,
+                 'instagrammable': 5,
+                 'institution': 7,
+                 'travelDistance': 8,
+                 'vegetarian': 5},
+    'Judy': {   'busy': 9,
+                'cost': 4,
+                'instagrammable': 3,
+                'institution': 1,
+                'travelDistance': 3,
+                'vegetarian': 7},
+    'Maribel': {   'busy': 2,
+                   'cost': 2,
+                   'instagrammable': 6,
+                   'institution': 3,
+                   'travelDistance': 8,
+                   'vegetarian': 7},
+    'Spencer': {   'busy': 4,
+                   'cost': 5,
+                   'instagrammable': 9,
+                   'institution': 8,
+                   'travelDistance': 8,
+                   'vegetarian': 4},
+    'Valerie': {   'busy': 10,
+                   'cost': 10,
+                   'instagrammable': 7,
+                   'institution': 6,
+                   'travelDistance': 9,
+                   'vegetarian': 4},
+    'Wayne': {   'busy': 8,
+                 'cost': 6,
+                 'instagrammable': 10,
+                 'institution': 2,
+                 'travelDistance': 3,
+                 'vegetarian': 10},
+    'William': {   'busy': 1,
+                   'cost': 1,
+                   'instagrammable': 5,
+                   'institution': 8,
+                   'travelDistance': 10,
+                   'vegetarian': 5}}
+
+----------------------------------------------------------------------------------------------------
+Transform the user data into a matrix(M_people). Keep track of column and row ids.
+[( 3,  6, 10,  8, 10,  2) ( 8,  5,  9,  4,  4,  8)
+ ( 3,  4,  3,  9,  7,  1) (10,  1,  5,  1,  5,  8)
+ ( 7,  7, 10,  8,  3,  6) ( 8,  4,  5,  7,  5,  7)
+ ( 9, 10,  7, 10,  4,  6) (10,  3,  6,  9, 10, 10)
+ ( 4, 10,  5,  5,  2,  2) ( 8,  2,  6,  2,  7,  3)]
+[('travelDistance', '<i4'), ('cost', '<i4'), ('instagrammable', '<i4'), ('busy', '<i4'), ('vegetarian', '<i4'), ('institution', '<i4')]
+
+----------------------------------------------------------------------------------------------------
+Next you collected data from an internet website. You got the following information.
+{   'Bounty': {   'busy': 7,
+                  'cost': 8,
+                  'instagrammable': 9,
+                  'institution': 9,
+                  'travelDistance': 7,
+                  'vegetarian': 10},
+    'Chance': {   'busy': 6,
+                  'cost': 6,
+                  'instagrammable': 6,
+                  'institution': 7,
+                  'travelDistance': 1,
+                  'vegetarian': 3},
+    'Lemon Grass': {   'busy': 10,
+                       'cost': 1,
+                       'instagrammable': 7,
+                       'institution': 1,
+                       'travelDistance': 6,
+                       'vegetarian': 6},
+    'Recess': {   'busy': 5,
+                  'cost': 10,
+                  'instagrammable': 9,
+                  'institution': 4,
+                  'travelDistance': 2,
+                  'vegetarian': 7},
+    'Sunset': {   'busy': 9,
+                  'cost': 7,
+                  'instagrammable': 5,
+                  'institution': 9,
+                  'travelDistance': 5,
+                  'vegetarian': 5},
+    'The Caribbean Flower': {   'busy': 7,
+                                'cost': 5,
+                                'instagrammable': 7,
+                                'institution': 1,
+                                'travelDistance': 1,
+                                'vegetarian': 2},
+    'The Coriander Bites': {   'busy': 7,
+                               'cost': 10,
+                               'instagrammable': 1,
+                               'institution': 6,
+                               'travelDistance': 10,
+                               'vegetarian': 10},
+    'The Indian Lane': {   'busy': 4,
+                           'cost': 5,
+                           'instagrammable': 9,
+                           'institution': 5,
+                           'travelDistance': 9,
+                           'vegetarian': 1},
+    'The Italian Empress': {   'busy': 10,
+                               'cost': 2,
+                               'instagrammable': 2,
+                               'institution': 1,
+                               'travelDistance': 1,
+                               'vegetarian': 9},
+    'The Juniper Window': {   'busy': 10,
+                              'cost': 7,
+                              'instagrammable': 5,
+                              'institution': 3,
+                              'travelDistance': 4,
+                              'vegetarian': 5}}
+
+----------------------------------------------------------------------------------------------------
+Transform the restaurant data into a matrix(M_restaurants) use the same column index.
+
+[( 1,  5, 7,  7,  2, 1) (10, 10, 1,  7, 10, 6) ( 9,  5, 9,  4,  1, 5)
+ ( 1,  2, 2, 10,  9, 1) ( 4,  7, 5, 10,  5, 3) ( 1,  6, 6,  6,  3, 7)
+ ( 7,  8, 9,  7, 10, 9) ( 2, 10, 9,  5,  7, 4) ( 5,  7, 5,  9,  5, 9)
+ ( 6,  1, 7, 10,  6, 1)]
+[('travelDistance', '<i4'), ('cost', '<i4'), ('instagrammable', '<i4'), ('busy', '<i4'), ('vegetarian', '<i4'), ('institution', '<i4')]
+
+----------------------------------------------------------------------------------------------------
+The most imporant idea in this project is the idea of a linear combination.
+
+Informally describe what a linear combination is and how it will relate to our restaurant matrix.
+
+Linear combination is the idea that given a matrix of data and corresponding weights of each feature of that matrix we can determine optimal decision/ranking
+
+Alternatively, given a matrix or vector and the scores/rankings we can determine the weights that would produce that output
+
+So for our examples given the characteristics of several restaurants and the weights each person places on those characteristics we can determine an optimal restaurant
+
+Similarly if we are given those restaurant charactertics and the all the peoples rankings of the rest. we can determine everyones preferences
+
+----------------------------------------------------------------------------------------------------
+Choose a person and compute(using a linear combination) the top restaurant for them.  What does each entry in the resulting vector represent.
+
+The top restaurant for Wayne and score is:
+('Bounty', 333)
+
+Each score in the resulting vector represents their compatibility with that restaurant based on the similarity between their preferences and the restaurants characteristics
+
+----------------------------------------------------------------------------------------------------
+Next compute a new matrix (M_usr_x_rest  i.e. an user by restaurant) from all people.  What does the a_ij matrix represent?
+[[181 140 122  75 180 129 192 160 130  91]
+ [268 255 212 220 272 266 343 359 212 208]
+ [199 238 122 189 253 205 268 255 163 166]
+ [207 120 171  85 154 148 185 218 104 110]
+ [240 196 183 131 240 201 279 261 177 140]
+ [191 184 127 123 208 168 225 218 144 110]
+ [333 317 222 252 335 295 370 401 226 237]
+ [274 227 171 147 259 199 283 259 200 161]
+ [247 248 183 188 275 244 314 322 188 164]
+ [236 188 176 144 223 194 243 265 133 157]]
+
+Each ijth value represents an individual users score or preference for that type of restaurant with higher scores meaning a greater preference
+
+----------------------------------------------------------------------------------------------------
+Sum all columns in M_usr_x_rest to get optimal restaurant for all users.  What do the entry’s represent?
+{   'Bounty': 2702,
+    'Chance': 2049,
+    'Lemon Grass': 1544,
+    'Recess': 2718,
+    'Sunset': 1677,
+    'The Caribbean Flower': 2376,
+    'The Coriander Bites': 2113,
+    'The Indian Lane': 1689,
+    'The Italian Empress': 1554,
+    'The Juniper Window': 2399}
+
+Each value represents the the total compatibility for all the restaurants of the entire group. The goal would be that higher values represent greater overall compatibility.
+----------------------------------------------------------------------------------------------------
+Now convert each row in the M_usr_x_rest into a ranking for each user and call it M_usr_x_rest_rank.   Do the same as above to generate the optimal resturant choice.
+[[ 1  2  1  1  2  1  2  1  2  1]
+ [ 8  9  6  9  8  9  9  8  9  8]
+ [ 3  7  1  8  6  7  5  3  5  7]
+ [ 4  1  3  2  1  2  1  2  1  2]
+ [ 6  5  5  4  5  6  6  5  6  3]
+ [ 2  3  2  3  3  3  3  2  4  2]
+ [10 10  7 10 10 10 10  9 10  9]
+ [ 9  6  3  6  7  5  7  4  8  5]
+ [ 7  8  5  7  9  8  8  7  7  6]
+ [ 5  4  4  5  4  4  4  6  3  4]]
+
+{   'Bounty': 55,
+    'Chance': 55,
+    'Lemon Grass': 47,
+    'Recess': 47,
+    'Sunset': 55,
+    'The Caribbean Flower': 55,
+    'The Coriander Bites': 55,
+    'The Indian Lane': 37,
+    'The Italian Empress': 55,
+    'The Juniper Window': 55}

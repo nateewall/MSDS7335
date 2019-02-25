@@ -9,8 +9,10 @@ import random
 import names
 import numpy as np
 from scipy.stats import rankdata
+import pprint
 
 random.seed(3)
+pp = pprint.PrettyPrinter(indent=4)
 
 print("You asked your 10 work friends to answer a survey. They gave you back the following dictionary object.")
 print('')
@@ -63,7 +65,7 @@ def createPeople(dictName, numObs, min_travel = 1, max_travel = 10, min_cost = 1
 people = {}
 createPeople(people, 10)
 pNames = list(people.keys())  # get the names of the people
-print(people)
+pp.pprint(people)
 print('')
 print("----------------------------------------------------------------------------------------------------")
 print("Transform the user data into a matrix(M_people). Keep track of column and row ids.")
@@ -113,7 +115,7 @@ rNames = ['The Caribbean Flower', 'The Coriander Bites', 'The Indian Lane', 'The
           'The Juniper Window', 'Chance', 'Bounty', 'Recess', 'Sunset', 'Lemon Grass'] #generated from https://www.fantasynamegenerators.com/restaurant-names.php
 
 createRestaurants(restaurants, rNames)
-print(restaurants)
+pp.pprint(restaurants)
 print('')
 print("----------------------------------------------------------------------------------------------------")
 print("Transform the restaurant data into a matrix(M_restaurants) use the same column index.")
@@ -124,19 +126,19 @@ print(M_restaurants)
 print(M_restaurants.dtype)
 print('')
 
-# print("----------------------------------------------------------------------------------------------------")
-# print("The most imporant idea in this project is the idea of a linear combination.")
-# print('')
-# print("Informally describe what a linear combination is and how it will relate to our restaurant matrix.")
-# print('')
-# print('Linear combination is the idea that given a matrix of data and corresponding weights of each feature of that matrix we can determine optimal decision/ranking')
-# print('')
-# print('Alternatively, given a matrix or vector and the scores/rankings we can determine the weights that would produce that output')
-# print('')
-# print('So for our examples given the characteristics of several restaurants and the weights each person places on those characteristics we can determine an optimal restaurant')
-# print('')
-# print('Similarly if we are given those restaurant charactertics and the all the peoples rankings of the rest. we can determine everyones preferences')
-# print('')
+print("----------------------------------------------------------------------------------------------------")
+print("The most imporant idea in this project is the idea of a linear combination.")
+print('')
+print("Informally describe what a linear combination is and how it will relate to our restaurant matrix.")
+print('')
+print('Linear combination is the idea that given a matrix of data and corresponding weights of each feature of that matrix we can determine optimal decision/ranking')
+print('')
+print('Alternatively, given a matrix or vector and the scores/rankings we can determine the weights that would produce that output')
+print('')
+print('So for our examples given the characteristics of several restaurants and the weights each person places on those characteristics we can determine an optimal restaurant')
+print('')
+print('Similarly if we are given those restaurant charactertics and the all the peoples rankings of the rest. we can determine everyones preferences')
+print('')
 
 print("----------------------------------------------------------------------------------------------------")
 print("Choose a person and compute(using a linear combination) the top restaurant for them.  What does each entry in the resulting vector represent.")
@@ -144,15 +146,16 @@ print("Choose a person and compute(using a linear combination) the top restauran
 R = M_restaurants.view(int).reshape(len(M_restaurants),-1)
 P = M_people.view(int).reshape(len(M_people),-1)
 
-# person0score = np.dot(R, P[0])
-#
-# restScore = sorted(zip(rNames, map(lambda x: round(x, 4), list(person0score))), reverse=True, key = lambda t: t[1])
-# print('')
-# print("The top restaurant for %s and score is:" % list(people.keys())[0])
-# print(restScore[0])
-# print('')
-# print("Each score in the resulting vector represents their compatibility with that restaurant based on the similarity between their preferences and the restaurants characteristics")
-# print('')
+person0score = np.dot(R, P[0])
+
+restScore = sorted(zip(rNames, map(lambda x: round(x, 4), list(person0score))), reverse=True, key = lambda t: t[1])
+print('')
+print("The top restaurant for %s and score is:" % list(people.keys())[0])
+print(restScore[0])
+print('')
+print("Each score in the resulting vector represents their compatibility with that restaurant based on the similarity between their preferences and the restaurants characteristics")
+print('')
+
 print("----------------------------------------------------------------------------------------------------")
 print("Next compute a new matrix (M_usr_x_rest  i.e. an user by restaurant) from all people.  What does the a_ij matrix represent?")
 
@@ -163,20 +166,29 @@ print('')
 print('Each ijth value represents an individual users score or preference for that type of restaurant with higher scores meaning a greater preference')
 print('')
 
-# Sum all columns in M_usr_x_rest to get optimal restaurant for all users.  What do the entry’s represent?
+print("----------------------------------------------------------------------------------------------------")
+print('Sum all columns in M_usr_x_rest to get optimal restaurant for all users.  What do the entry’s represent?')
 rawScoreRest = {}
 for n in enumerate(rNames):
-    print(n[1])
-    print(sum(M_usr_x_rest[:,n[0]]))
+    # print(n[1])
+    # print(sum(M_usr_x_rest[:,n[0]]))
     rawScoreRest[n[1]] = sum(M_usr_x_rest[:,n[0]])
 
+pp.pprint(rawScoreRest)
+print('')
+print('Each value represents the the total compatibility for all the restaurants of the entire group. The goal would be that higher values represent greater overall compatibility.')
 
-# Now convert each row in the M_usr_x_rest into a ranking for each user and call it M_usr_x_rest_rank.   Do the same as above to generate the optimal resturant choice.
-# M_usr_x_rest_rank = np.zeros(len(rNames))
+print("----------------------------------------------------------------------------------------------------")
+print('Now convert each row in the M_usr_x_rest into a ranking for each user and call it M_usr_x_rest_rank.   Do the same as above to generate the optimal resturant choice.')
+M_usr_x_rest_rank = np.empty([len(pNames), len(rNames)], dtype = int)
+rankScoreRest = {}
 for n in enumerate(rNames):
-    print(M_usr_x_rest[:, n[0]])
-    print(rankdata(M_usr_x_rest[:, n[0]], method='dense'))
+    M_usr_x_rest_rank[:, n[0]] = rankdata(M_usr_x_rest[:, n[0]], method='dense')
+    rankScoreRest[n[1]] = sum(M_usr_x_rest_rank[:, n[0]])
 
+print(M_usr_x_rest_rank)
+print('')
+pp.pprint(rankScoreRest)
 
 # Why is there a difference between the two?  What problem arrives?  What does represent in the real world?
 
