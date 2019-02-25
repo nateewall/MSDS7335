@@ -9,10 +9,8 @@ import random
 import names
 import numpy as np
 from scipy.stats import rankdata
-import pprint
 
 random.seed(3)
-pp = pprint.PrettyPrinter(indent=4)
 
 print("You asked your 10 work friends to answer a survey. They gave you back the following dictionary object.")
 print('')
@@ -65,10 +63,14 @@ def createPeople(dictName, numObs, min_travel = 1, max_travel = 10, min_cost = 1
 people = {}
 createPeople(people, 10)
 pNames = list(people.keys())  # get the names of the people
-pp.pprint(people)
+for name, value in people.items():
+    print(name)
+    print(value)
+
 print('')
 print("----------------------------------------------------------------------------------------------------")
 print("Transform the user data into a matrix(M_people). Keep track of column and row ids.")
+
 def matrixDict(dictName, names):
     varNames = list(dictName[names[0]].keys())  # get the survey var names
     dtype = dict(names = varNames, formats=(['i4'] * len(varNames))) #structure for array
@@ -115,7 +117,11 @@ rNames = ['The Caribbean Flower', 'The Coriander Bites', 'The Indian Lane', 'The
           'The Juniper Window', 'Chance', 'Bounty', 'Recess', 'Sunset', 'Lemon Grass'] #generated from https://www.fantasynamegenerators.com/restaurant-names.php
 
 createRestaurants(restaurants, rNames)
-pp.pprint(restaurants)
+
+for name, value in restaurants.items():
+    print(name)
+    print(value)
+
 print('')
 print("----------------------------------------------------------------------------------------------------")
 print("Transform the restaurant data into a matrix(M_restaurants) use the same column index.")
@@ -141,14 +147,13 @@ print('Similarly if we are given those restaurant charactertics and the all the 
 print('')
 
 print("----------------------------------------------------------------------------------------------------")
-print("Choose a person and compute(using a linear combination) the top restaurant for them.  What does each entry in the resulting vector represent.")
+print("Choose a person and compute (using a linear combination) the top restaurant for them.  What does each entry in the resulting vector represent.")
 # x.view(np.float64).reshape(x.shape + (-1,))
 R = M_restaurants.view(int).reshape(len(M_restaurants),-1)
 P = M_people.view(int).reshape(len(M_people),-1)
-
 person0score = np.dot(R, P[0])
-
 restScore = sorted(zip(rNames, map(lambda x: round(x, 4), list(person0score))), reverse=True, key = lambda t: t[1])
+
 print('')
 print("The top restaurant for %s and score is:" % list(people.keys())[0])
 print(restScore[0])
@@ -168,29 +173,43 @@ print('')
 
 print("----------------------------------------------------------------------------------------------------")
 print('Sum all columns in M_usr_x_rest to get optimal restaurant for all users.  What do the entry’s represent?')
-rawScoreRest = {}
-for n in enumerate(rNames):
-    # print(n[1])
-    # print(sum(M_usr_x_rest[:,n[0]]))
-    rawScoreRest[n[1]] = sum(M_usr_x_rest[:,n[0]])
+rawScore = np.sum(M_usr_x_rest, axis = 0)
+restRawScore = sorted(zip(rNames, map(lambda x: round(x, 4), list(rawScore))), reverse=True, key = lambda t: t[1])
 
-pp.pprint(rawScoreRest)
+print('The final sorted restaurant by raw score are shown below.')
+for r in restRawScore:
+    print(r)
+
 print('')
-print('Each value represents the the total compatibility for all the restaurants of the entire group. The goal would be that higher values represent greater overall compatibility.')
+print('Each value represents the the total compatibility for all the restaurants for the entire group. The goal would be that higher values represent greater overall compatibility.')
+print('One issue with scoring this way is if one person is very highly compatible with a restaurant this may drive up the entire overall score')
 
 print("----------------------------------------------------------------------------------------------------")
 print('Now convert each row in the M_usr_x_rest into a ranking for each user and call it M_usr_x_rest_rank.   Do the same as above to generate the optimal resturant choice.')
-M_usr_x_rest_rank = np.empty([len(pNames), len(rNames)], dtype = int)
-rankScoreRest = {}
+tmp = np.empty([len(pNames), len(rNames)], dtype = int)
 for n in enumerate(rNames):
-    M_usr_x_rest_rank[:, n[0]] = rankdata(M_usr_x_rest[:, n[0]], method='dense')
-    rankScoreRest[n[1]] = sum(M_usr_x_rest_rank[:, n[0]])
+    tmp[n[0]] = rankdata(M_usr_x_rest[n[0]], method='dense')
 
+M_usr_x_rest_rank = tmp.reshape(len(M_people),-1)
 print(M_usr_x_rest_rank)
 print('')
-pp.pprint(rankScoreRest)
 
-# Why is there a difference between the two?  What problem arrives?  What does represent in the real world?
+rankScore = np.sum(M_usr_x_rest_rank, axis = 0)
+print(rankScore)
+rankScoreRest = sorted(zip(rNames, map(lambda x: round(x, 4), list(rankScore))), reverse=True, key = lambda t: t[1])
+print('The final sorted restaurant by ranks scores are shown below, higher values mean more compatible for the group.')
+for r in rankScoreRest:
+    print(r)
+print('')
+
+print("----------------------------------------------------------------------------------------------------")
+print("Why is there a difference between the two?  What problem arrives?  What does represent in the real world?")
+print("")
+print("The most compatible restaurant for the group is different between the raw sum & the sum on the order statistics")
+print("")
+print("This is driven by the fact that certain people have really high raw scores for the restaurant 'Recess' however, that rank value helps reduce the impact of those elevated scores")
+print("")
+print("In the real world this could be related to the people that may have really strong preferences can often times sway the entire group to their preferences.")
 
 
 # How should you preprocess your data to remove this problem.
