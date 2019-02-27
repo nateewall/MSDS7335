@@ -157,18 +157,19 @@ print('')
 # print("Choose a person and compute (using a linear combination) the top restaurant for them.  What does each entry in the resulting vector represent.")
 
 
-R = M_restaurants.view(int).reshape(len(M_restaurants),-1)
-P = M_people.view(int).reshape(len(M_people),-1)
+R = M_restaurants.view(M_restaurants.dtype[0]).reshape(len(M_restaurants) , -1)
 
-# person0score = np.dot(R, P[0])
-# restScore = sorted(zip(rNames, map(lambda x: round(x, 4), list(person0score))), reverse=True, key = lambda t: t[1])
-#
-# print('')
-# print("The top restaurant for %s and score is:" % list(people.keys())[0])
-# print(restScore[0])
-# print('')
-# print("Each score in the resulting vector represents their compatibility with that restaurant based on the similarity between their preferences and the restaurants characteristics")
-# print('')
+P = M_people.view(M_people.dtype[0]).reshape(len(M_people) ,-1)
+
+person0score = np.dot(R, P[0])
+restScore = sorted(zip(rNames, map(lambda x: round(x, 4), list(person0score))), reverse=True, key = lambda t: t[1])
+
+print('')
+print("The top restaurant for %s and score is:" % list(people.keys())[0])
+print(restScore[0])
+print('')
+print("Each score in the resulting vector represents their compatibility with that restaurant based on the similarity between their preferences and the restaurants characteristics")
+print('')
 
 print("----------------------------------------------------------------------------------------------------")
 print("Next compute a new matrix (M_usr_x_rest  i.e. an user by restaurant) from all people.  What does the a_ij matrix represent?")
@@ -282,6 +283,7 @@ plt.close()
 # Think of two metrics to compute the disatistifaction with the group.
 
 print("First is the function where each person's actual score is subtracted from the groups averaged scores, squared, summed & averaged")
+
 
 
 print("Second is the function where each person's actual ranking is subtracted from the groups average rating, squared, summed & averaged")
