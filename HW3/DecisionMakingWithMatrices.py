@@ -256,94 +256,101 @@ print("")
 print("As we see this now produces the same results of ranking")
 
 
-print("")
-print("----------------------------------------------------------------------------------------------------")
-print("Find user profiles that are problematic, explain why?")
-print("----------------------------------------------------------------------------------------------------")
-print("")
-fig, ax = plt.subplots(figsize=(10, 10))
-ax.set_title('Heatmap of Compatibility Scores Person by Restaurant (Raw Score)')  # name hist by variable
-plt.imshow(M_usr_x_rest)
-# We want to show all ticks
-ax.set_xticks(np.arange(len(rNames)))
-ax.set_yticks(np.arange(len(pNames)))
-#label them with the respective list entries
-ax.set_xticklabels(rNames)
-ax.set_yticklabels(pNames)
-
-# Rotate the tick labels and set their alignment.
-plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
-         rotation_mode="anchor")
-
-# Loop over data dimensions and create text annotations.
-for i in range(len(pNames)):
-    for j in range(len(rNames)):
-        text = ax.text(j, i, M_usr_x_rest[i, j],
-                       ha="center", va="center", color="w")
-
-plt.show()
-fileName = str(projectName + '/HeatmapofPersonxRestaurantCompatibilityRawScores.png')  # assumes projectName exists from above
-plt.savefig(fileName)
-plt.close()
-
-
-fig, ax = plt.subplots(figsize=(10, 10))
-ax.set_title('Heatmap of Compatibility Scores Person by Restaurant (Rank Score)')  # name hist by variable
-plt.imshow(M_usr_x_rest_rank)
-# We want to show all ticks
-ax.set_xticks(np.arange(len(rNames)))
-ax.set_yticks(np.arange(len(pNames)))
-#label them with the respective list entries
-ax.set_xticklabels(rNames)
-ax.set_yticklabels(pNames)
-
-# Rotate the tick labels and set their alignment.
-plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
-         rotation_mode="anchor")
-
-# Loop over data dimensions and create text annotations.
-for i in range(len(pNames)):
-    for j in range(len(rNames)):
-        text = ax.text(j, i, M_usr_x_rest_rank[i, j],
-                       ha="center", va="center", color="w")
-
-plt.show()
-fileName = str(projectName + '/HeatmapofPersonxRestaurantCompatibilityRankScores.png')  # assumes projectName exists from above
-plt.savefig(fileName)
-plt.close()
-print("After looking heatmaps generated in %s it is while there are some people that may stand out it would be better to plot the principle components")
-
-pca = PCA(n_components=2)
-pca.fit(P)
-peoplePca = pca.fit_transform(P)
-print("")
-print("The results of a 2 component PCA Variance")
-print(pca.explained_variance_ratio_)
-
-fig, ax = plt.subplots(figsize=(10, 10))
-ax.set_title('Principle Component Plot of the Lunch Crowd')  # name hist by variable
-plt.scatter(peoplePca[:,0], peoplePca[:,1])
-ax.grid()
-
-for i, name in enumerate(pNames):
-    ax.annotate(name, (peoplePca[i][0], peoplePca[i][1]))
-
-plt.show()
-fileName = str(projectName + '/PrincipleComponentPeoplePlot.png')  # assumes projectName exists from above
-plt.savefig(fileName)
-plt.close()
-print("")
-print("After looking at the combinations of the two graphs William and Marible seem to stand out as potential problems")
-print("")
+# print("")
+# print("----------------------------------------------------------------------------------------------------")
+# print("Find user profiles that are problematic, explain why?")
+# print("----------------------------------------------------------------------------------------------------")
+# print("")
+# fig, ax = plt.subplots(figsize=(10, 10))
+# ax.set_title('Heatmap of Compatibility Scores Person by Restaurant (Raw Score)')  # name hist by variable
+# plt.imshow(M_usr_x_rest)
+# # We want to show all ticks
+# ax.set_xticks(np.arange(len(rNames)))
+# ax.set_yticks(np.arange(len(pNames)))
+# #label them with the respective list entries
+# ax.set_xticklabels(rNames)
+# ax.set_yticklabels(pNames)
+#
+# # Rotate the tick labels and set their alignment.
+# plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
+#          rotation_mode="anchor")
+#
+# # Loop over data dimensions and create text annotations.
+# for i in range(len(pNames)):
+#     for j in range(len(rNames)):
+#         text = ax.text(j, i, M_usr_x_rest[i, j],
+#                        ha="center", va="center", color="w")
+#
+# plt.show()
+# fileName = str(projectName + '/HeatmapofPersonxRestaurantCompatibilityRawScores.png')  # assumes projectName exists from above
+# plt.savefig(fileName)
+# plt.close()
+#
+#
+# fig, ax = plt.subplots(figsize=(10, 10))
+# ax.set_title('Heatmap of Compatibility Scores Person by Restaurant (Rank Score)')  # name hist by variable
+# plt.imshow(M_usr_x_rest_rank)
+# # We want to show all ticks
+# ax.set_xticks(np.arange(len(rNames)))
+# ax.set_yticks(np.arange(len(pNames)))
+# #label them with the respective list entries
+# ax.set_xticklabels(rNames)
+# ax.set_yticklabels(pNames)
+#
+# # Rotate the tick labels and set their alignment.
+# plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
+#          rotation_mode="anchor")
+#
+# # Loop over data dimensions and create text annotations.
+# for i in range(len(pNames)):
+#     for j in range(len(rNames)):
+#         text = ax.text(j, i, M_usr_x_rest_rank[i, j],
+#                        ha="center", va="center", color="w")
+#
+# plt.show()
+# fileName = str(projectName + '/HeatmapofPersonxRestaurantCompatibilityRankScores.png')  # assumes projectName exists from above
+# plt.savefig(fileName)
+# plt.close()
+# print("After looking heatmaps generated in %s it is while there are some people that may stand out it would be better to plot the principle components")
+#
+# pca = PCA(n_components=2)
+# pca.fit(P)
+# peoplePca = pca.fit_transform(P)
+# print("")
+# print("The results of a 2 component PCA Variance")
+# print(pca.explained_variance_ratio_)
+#
+# fig, ax = plt.subplots(figsize=(10, 10))
+# ax.set_title('Principle Component Plot of the Lunch Crowd')  # name hist by variable
+# plt.scatter(peoplePca[:,0], peoplePca[:,1])
+# ax.grid()
+#
+# for i, name in enumerate(pNames):
+#     ax.annotate(name, (peoplePca[i][0], peoplePca[i][1]))
+#
+# plt.show()
+# fileName = str(projectName + '/PrincipleComponentPeoplePlot.png')  # assumes projectName exists from above
+# plt.savefig(fileName)
+# plt.close()
+# print("")
+# print("After looking at the combinations of the two graphs William and Marible seem to stand out as potential problems")
+# print("")
 
 print("")
 print("----------------------------------------------------------------------------------------------------")
 print("Think of two metrics to compute the disatistifaction with the group.")
 print("----------------------------------------------------------------------------------------------------")
 print("")
-print("First is the function where each person's actual score is subtracted from the groups averaged scores, squared, summed & averaged")
+print("First is the function where each person's actual score is subtracted from the restaurant averaged scores")
 print("")
+squareDiff = np.empty([len(pNames), len(rNames)], dtype = int)
+for row in range(len(rNames)):
+    for col in range(len(pNames)):
+        squareDiff[row][col] = np.square((M_usr_x_rest[row][col] - np.mean(M_usr_x_rest[:,col])))
 
+meanSquare = np.mean(squareDiff)
+print(meanSquare)
+print("")
 
 print("Second is the function where each person's actual ranking is subtracted from the groups average rating, squared, summed & averaged")
 print("")
