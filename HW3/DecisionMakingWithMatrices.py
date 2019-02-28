@@ -11,6 +11,7 @@ import numpy as np
 import os
 from scipy.stats import rankdata
 import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
 
 random.seed(3)
 #create the master project file
@@ -18,8 +19,9 @@ projectName = 'RestaurantSelection'
 
 if not os.path.exists(projectName):
     os.makedirs(projectName)
-
+print("----------------------------------------------------------------------------------------------------")
 print("You asked your 10 work friends to answer a survey. They gave you back the following dictionary object.")
+print("----------------------------------------------------------------------------------------------------")
 print('')
 # the results of a survey about lunch preferences are captured in the following dictionary on a scale from 1 to 5 with each feature defined as:
 
@@ -77,6 +79,7 @@ for name, value in people.items():
 print('')
 print("----------------------------------------------------------------------------------------------------")
 print("Transform the user data into a matrix(M_people). Keep track of column and row ids.")
+print("----------------------------------------------------------------------------------------------------")
 
 def matrixDict(dictName, names):
     varNames = list(dictName[names[0]].keys())  # get the survey var names
@@ -96,6 +99,7 @@ print('')
 
 print("----------------------------------------------------------------------------------------------------")
 print("Next you collected data from an internet website. You got the following information.")
+print("----------------------------------------------------------------------------------------------------")
 
 def createRestaurants(dictName, names, min_travel = 1, max_travel = 10,min_cost = 1, max_cost = 10, min_gram = 1, max_gram = 10,
                     min_busy = 1, max_busy = 10, min_vege = 1, max_vege = 10, min_institute = 1, max_institute = 10):
@@ -132,30 +136,32 @@ for name, value in restaurants.items():
 print('')
 print("----------------------------------------------------------------------------------------------------")
 print("Transform the restaurant data into a matrix(M_restaurants) use the same column index.")
+print("----------------------------------------------------------------------------------------------------")
 print('')
 M_restaurants = matrixDict(restaurants, rNames)
 
 print(M_restaurants)
 print(M_restaurants.dtype)
+
 print('')
+print("----------------------------------------------------------------------------------------------------")
+print("The most imporant idea in this project is the idea of a linear combination.")
+print("----------------------------------------------------------------------------------------------------")
+print('')
+print("Informally describe what a linear combination is and how it will relate to our restaurant matrix.")
+print('')
+print('Linear combination is the idea that given a matrix of data and corresponding weights of each feature of that matrix we can determine optimal decision/ranking')
+print('')
+print('Alternatively, given a matrix or vector and the scores/rankings we can determine the weights that would produce that output')
+print('')
+print('So for our examples given the characteristics of several restaurants and the weights each person places on those characteristics we can determine an optimal restaurant')
+print('')
+print('Similarly if we are given those restaurant charactertics and the all the peoples rankings of the rest. we can determine everyones preferences')
 
-# print("----------------------------------------------------------------------------------------------------")
-# print("The most imporant idea in this project is the idea of a linear combination.")
-# print('')
-# print("Informally describe what a linear combination is and how it will relate to our restaurant matrix.")
-# print('')
-# print('Linear combination is the idea that given a matrix of data and corresponding weights of each feature of that matrix we can determine optimal decision/ranking')
-# print('')
-# print('Alternatively, given a matrix or vector and the scores/rankings we can determine the weights that would produce that output')
-# print('')
-# print('So for our examples given the characteristics of several restaurants and the weights each person places on those characteristics we can determine an optimal restaurant')
-# print('')
-# print('Similarly if we are given those restaurant charactertics and the all the peoples rankings of the rest. we can determine everyones preferences')
-# print('')
-#
-# print("----------------------------------------------------------------------------------------------------")
-# print("Choose a person and compute (using a linear combination) the top restaurant for them.  What does each entry in the resulting vector represent.")
-
+print('')
+print("----------------------------------------------------------------------------------------------------")
+print("Choose a person and compute (using a linear combination) the top restaurant for them.  What does each entry in the resulting vector represent.")
+print("----------------------------------------------------------------------------------------------------")
 
 R = M_restaurants.view(M_restaurants.dtype[0]).reshape(len(M_restaurants) , -1)
 
@@ -169,20 +175,21 @@ print("The top restaurant for %s and score is:" % list(people.keys())[0])
 print(restScore[0])
 print('')
 print("Each score in the resulting vector represents their compatibility with that restaurant based on the similarity between their preferences and the restaurants characteristics")
-print('')
 
+print('')
 print("----------------------------------------------------------------------------------------------------")
 print("Next compute a new matrix (M_usr_x_rest  i.e. an user by restaurant) from all people.  What does the a_ij matrix represent?")
-
+print("----------------------------------------------------------------------------------------------------")
 M_usr_x_rest = np.matmul(R, P.T)
 
 print(M_usr_x_rest)
 print('')
 print('Each ijth value represents an individual users score or preference for that type of restaurant with higher scores meaning a greater preference')
-print('')
 
+print('')
 print("----------------------------------------------------------------------------------------------------")
 print('Sum all columns in M_usr_x_rest to get optimal restaurant for all users.  What do the entry’s represent?')
+print("----------------------------------------------------------------------------------------------------")
 rawScore = np.sum(M_usr_x_rest, axis = 0)
 restRawScore = sorted(zip(rNames, map(lambda x: round(x, 4), list(rawScore))), reverse=True, key = lambda t: t[1])
 
@@ -192,10 +199,13 @@ for r in restRawScore:
 
 print('')
 print('Each value represents the the total compatibility for all the restaurants for the entire group. The goal would be that higher values represent greater overall compatibility.')
+print('')
 print('One issue with scoring this way is if one person is very highly compatible with a restaurant this may drive up the entire overall score')
 
+print("")
 print("----------------------------------------------------------------------------------------------------")
 print('Now convert each row in the M_usr_x_rest into a ranking for each user and call it M_usr_x_rest_rank.   Do the same as above to generate the optimal resturant choice.')
+print("----------------------------------------------------------------------------------------------------")
 tmp = np.empty([len(pNames), len(rNames)], dtype = int)
 for n in enumerate(rNames):
     tmp[n[0]] = rankdata(M_usr_x_rest[n[0]], method='dense')
@@ -204,30 +214,53 @@ M_usr_x_rest_rank = tmp.reshape(len(M_people),-1)
 print(M_usr_x_rest_rank)
 print('')
 
-# rankScore = np.sum(M_usr_x_rest_rank, axis = 0)
-# print(rankScore)
-# rankScoreRest = sorted(zip(rNames, map(lambda x: round(x, 4), list(rankScore))), reverse=True, key = lambda t: t[1])
-# print('The final sorted restaurant by ranks scores are shown below, higher values mean more compatible for the group.')
-# for r in rankScoreRest:
-#     print(r)
-# print('')
-#
-# print("----------------------------------------------------------------------------------------------------")
-# print("Why is there a difference between the two?  What problem arrives?  What does represent in the real world?")
-# print("")
-# print("The most compatible restaurant for the group is different between the raw sum & the sum on the order statistics")
-# print("")
-# print("This is driven by the fact that certain people have really high raw scores for the restaurant 'Recess' however, that rank value helps reduce the impact of those elevated scores")
-# print("")
-# print("In the real world this could be related to the people that may have really strong preferences can often times sway the entire group to their preferences.")
+rankScore = np.sum(M_usr_x_rest_rank, axis = 0)
+print(rankScore)
+rankScoreRest = sorted(zip(rNames, map(lambda x: round(x, 4), list(rankScore))), reverse=True, key = lambda t: t[1])
+print('The final sorted restaurant by ranks scores are shown below, higher values mean more compatible for the group.')
+for r in rankScoreRest:
+    print(r)
+
+print('')
+print("----------------------------------------------------------------------------------------------------")
+print("Why is there a difference between the two?  What problem arrives?  What does represent in the real world?")
+print("----------------------------------------------------------------------------------------------------")
+print("")
+print("The most compatible restaurant for the group is different between the raw sum & the sum on the order statistics")
+print("")
+print("This is driven by the fact that certain people have really high raw scores for the restaurant 'Recess' however, that rank value helps reduce the impact of those elevated scores")
+print("")
+print("In the real world this could be related to the people that may have really strong preferences can often times sway the entire group to their preferences.")
+
+print("")
+print("----------------------------------------------------------------------------------------------------")
+print("How should you preprocess your data to remove this problem.")
+print("----------------------------------------------------------------------------------------------------")
+print("")
+print("One potential method would be setting min & max values for each ij to prevent letting any value over weight the final solution")
+print("")
+print("For example in our data the issue is really driven by the outliers so we will snap all values over 350 to 350 & values less than 70 to 70")
+
+M_usr_x_rest[M_usr_x_rest > 350] = 350
+M_usr_x_rest[M_usr_x_rest < 70] = 70
+
+print("")
+print(M_usr_x_rest)
+rawScore = np.sum(M_usr_x_rest, axis = 0)
+restRawScore = sorted(zip(rNames, map(lambda x: round(x, 4), list(rawScore))), reverse=True, key = lambda t: t[1])
+print("")
+print('The new optimal sorting for all restaurants after this preprocessing is now.')
+for r in restRawScore:
+    print(r)
+print("")
+print("As we see this now produces the same results of ranking")
 
 
-# How should you preprocess your data to remove this problem.
-
-
-
-# Find user profiles that are problematic, explain why?
-
+print("")
+print("----------------------------------------------------------------------------------------------------")
+print("Find user profiles that are problematic, explain why?")
+print("----------------------------------------------------------------------------------------------------")
+print("")
 fig, ax = plt.subplots(figsize=(10, 10))
 ax.set_title('Heatmap of Compatibility Scores Person by Restaurant (Raw Score)')  # name hist by variable
 plt.imshow(M_usr_x_rest)
@@ -278,28 +311,59 @@ plt.show()
 fileName = str(projectName + '/HeatmapofPersonxRestaurantCompatibilityRankScores.png')  # assumes projectName exists from above
 plt.savefig(fileName)
 plt.close()
+print("After looking heatmaps generated in %s it is while there are some people that may stand out it would be better to plot the principle components")
 
+pca = PCA(n_components=2)
+pca.fit(P)
+peoplePca = pca.fit_transform(P)
+print("")
+print("The results of a 2 component PCA Variance")
+print(pca.explained_variance_ratio_)
 
-# Think of two metrics to compute the disatistifaction with the group.
+fig, ax = plt.subplots(figsize=(10, 10))
+ax.set_title('Principle Component Plot of the Lunch Crowd')  # name hist by variable
+plt.scatter(peoplePca[:,0], peoplePca[:,1])
+ax.grid()
 
+for i, name in enumerate(pNames):
+    ax.annotate(name, (peoplePca[i][0], peoplePca[i][1]))
+
+plt.show()
+fileName = str(projectName + '/PrincipleComponentPeoplePlot.png')  # assumes projectName exists from above
+plt.savefig(fileName)
+plt.close()
+print("")
+print("After looking at the combinations of the two graphs William and Marible seem to stand out as potential problems")
+print("")
+
+print("")
+print("----------------------------------------------------------------------------------------------------")
+print("Think of two metrics to compute the disatistifaction with the group.")
+print("----------------------------------------------------------------------------------------------------")
+print("")
 print("First is the function where each person's actual score is subtracted from the groups averaged scores, squared, summed & averaged")
-
+print("")
 
 
 print("Second is the function where each person's actual ranking is subtracted from the groups average rating, squared, summed & averaged")
+print("")
 
-
-
-print("Should you split in two groups today?")
-
-
-
-print("Ok. Now you just found out the boss is paying for the meal. How should you adjust. Now what is best restaurant?")
-
-print("The best way to do this is convert everyones cost to 1 meaning cost is no longer an issue and determine the new scores")
-
-
-# Tommorow you visit another team. You have the same restaurants and they told you their optimal ordering for restaurants.  Can you find their weight matrix?
-
-print("Assuming you have everyone's individual rankings you can determine a similar weighting.")
-
+# print("")
+# print("----------------------------------------------------------------------------------------------------")
+# print("Should you split in two groups today?")
+# print("----------------------------------------------------------------------------------------------------")
+# print("")
+#
+# print("----------------------------------------------------------------------------------------------------")
+# print("Ok. Now you just found out the boss is paying for the meal. How should you adjust. Now what is best restaurant?")
+# print("----------------------------------------------------------------------------------------------------")
+# print("")
+# print("My first thought would be to convert everyones cost to 1 meaning cost is no longer an issue and determine the new scores")
+# print("")
+#
+#
+# print("----------------------------------------------------------------------------------------------------")
+# print("Tommorow you visit another team. You have the same restaurants and they told you their optimal ordering for restaurants.  Can you find their weight matrix?")
+# print('')
+# print("Assuming you have everyone's individual rankings you can determine a similar weighting.")
+# print("")
