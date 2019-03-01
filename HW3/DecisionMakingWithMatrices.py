@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 
 random.seed(3)
+
 #create the master project file
 projectName = 'RestaurantSelection'
 
@@ -167,6 +168,7 @@ R = M_restaurants.view(M_restaurants.dtype[0]).reshape(len(M_restaurants) , -1)
 
 P = M_people.view(M_people.dtype[0]).reshape(len(M_people) ,-1)
 
+
 person0score = np.dot(R, P[0])
 restScore = sorted(zip(rNames, map(lambda x: round(x, 4), list(person0score))), reverse=True, key = lambda t: t[1])
 
@@ -215,7 +217,7 @@ print(M_usr_x_rest_rank)
 print('')
 
 rankScore = np.sum(M_usr_x_rest_rank, axis = 0)
-print(rankScore)
+
 rankScoreRest = sorted(zip(rNames, map(lambda x: round(x, 4), list(rankScore))), reverse=True, key = lambda t: t[1])
 print('The final sorted restaurant by ranks scores are shown below, higher values mean more compatible for the group.')
 for r in rankScoreRest:
@@ -244,8 +246,8 @@ print("For example in our data the issue is really driven by the outliers so we 
 M_usr_x_rest[M_usr_x_rest > 350] = 350
 M_usr_x_rest[M_usr_x_rest < 70] = 70
 
-print("")
-print(M_usr_x_rest)
+# print("")
+# print(M_usr_x_rest)
 rawScore = np.sum(M_usr_x_rest, axis = 0)
 restRawScore = sorted(zip(rNames, map(lambda x: round(x, 4), list(rawScore))), reverse=True, key = lambda t: t[1])
 print("")
@@ -256,92 +258,92 @@ print("")
 print("As we see this now produces the same results of ranking")
 
 
-# print("")
-# print("----------------------------------------------------------------------------------------------------")
-# print("Find user profiles that are problematic, explain why?")
-# print("----------------------------------------------------------------------------------------------------")
-# print("")
-# fig, ax = plt.subplots(figsize=(10, 10))
-# ax.set_title('Heatmap of Compatibility Scores Person by Restaurant (Raw Score)')  # name hist by variable
-# plt.imshow(M_usr_x_rest)
-# # We want to show all ticks
-# ax.set_xticks(np.arange(len(rNames)))
-# ax.set_yticks(np.arange(len(pNames)))
-# #label them with the respective list entries
-# ax.set_xticklabels(rNames)
-# ax.set_yticklabels(pNames)
-#
-# # Rotate the tick labels and set their alignment.
-# plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
-#          rotation_mode="anchor")
-#
-# # Loop over data dimensions and create text annotations.
-# for i in range(len(pNames)):
-#     for j in range(len(rNames)):
-#         text = ax.text(j, i, M_usr_x_rest[i, j],
-#                        ha="center", va="center", color="w")
-#
-# plt.show()
-# fileName = str(projectName + '/HeatmapofPersonxRestaurantCompatibilityRawScores.png')  # assumes projectName exists from above
-# plt.savefig(fileName)
-# plt.close()
-#
-#
-# fig, ax = plt.subplots(figsize=(10, 10))
-# ax.set_title('Heatmap of Compatibility Scores Person by Restaurant (Rank Score)')  # name hist by variable
-# plt.imshow(M_usr_x_rest_rank)
-# # We want to show all ticks
-# ax.set_xticks(np.arange(len(rNames)))
-# ax.set_yticks(np.arange(len(pNames)))
-# #label them with the respective list entries
-# ax.set_xticklabels(rNames)
-# ax.set_yticklabels(pNames)
-#
-# # Rotate the tick labels and set their alignment.
-# plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
-#          rotation_mode="anchor")
-#
-# # Loop over data dimensions and create text annotations.
-# for i in range(len(pNames)):
-#     for j in range(len(rNames)):
-#         text = ax.text(j, i, M_usr_x_rest_rank[i, j],
-#                        ha="center", va="center", color="w")
-#
-# plt.show()
-# fileName = str(projectName + '/HeatmapofPersonxRestaurantCompatibilityRankScores.png')  # assumes projectName exists from above
-# plt.savefig(fileName)
-# plt.close()
-# print("After looking heatmaps generated in %s it is while there are some people that may stand out it would be better to plot the principle components")
-#
-# pca = PCA(n_components=2)
-# pca.fit(P)
-# peoplePca = pca.fit_transform(P)
-# print("")
-# print("The results of a 2 component PCA Variance")
-# print(pca.explained_variance_ratio_)
-#
-# fig, ax = plt.subplots(figsize=(10, 10))
-# ax.set_title('Principle Component Plot of the Lunch Crowd')  # name hist by variable
-# plt.scatter(peoplePca[:,0], peoplePca[:,1])
-# ax.grid()
-#
-# for i, name in enumerate(pNames):
-#     ax.annotate(name, (peoplePca[i][0], peoplePca[i][1]))
-#
-# plt.show()
-# fileName = str(projectName + '/PrincipleComponentPeoplePlot.png')  # assumes projectName exists from above
-# plt.savefig(fileName)
-# plt.close()
-# print("")
-# print("After looking at the combinations of the two graphs William and Marible seem to stand out as potential problems")
-# print("")
+print("")
+print("----------------------------------------------------------------------------------------------------")
+print("Find user profiles that are problematic, explain why?")
+print("----------------------------------------------------------------------------------------------------")
+print("")
+fig, ax = plt.subplots(figsize=(10, 10))
+ax.set_title('Heatmap of Compatibility Scores Person by Restaurant (Raw Score)')  # name hist by variable
+plt.imshow(M_usr_x_rest)
+# We want to show all ticks
+ax.set_xticks(np.arange(len(rNames)))
+ax.set_yticks(np.arange(len(pNames)))
+#label them with the respective list entries
+ax.set_xticklabels(rNames)
+ax.set_yticklabels(pNames)
+
+# Rotate the tick labels and set their alignment.
+plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
+         rotation_mode="anchor")
+
+# Loop over data dimensions and create text annotations.
+for i in range(len(pNames)):
+    for j in range(len(rNames)):
+        text = ax.text(j, i, M_usr_x_rest[i, j],
+                       ha="center", va="center", color="w")
+
+plt.show()
+fileName = str(projectName + '/HeatmapofPersonxRestaurantCompatibilityRawScores.png')  # assumes projectName exists from above
+plt.savefig(fileName)
+plt.close()
+
+
+fig, ax = plt.subplots(figsize=(10, 10))
+ax.set_title('Heatmap of Compatibility Scores Person by Restaurant (Rank Score)')  # name hist by variable
+plt.imshow(M_usr_x_rest_rank)
+# We want to show all ticks
+ax.set_xticks(np.arange(len(rNames)))
+ax.set_yticks(np.arange(len(pNames)))
+#label them with the respective list entries
+ax.set_xticklabels(rNames)
+ax.set_yticklabels(pNames)
+
+# Rotate the tick labels and set their alignment.
+plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
+         rotation_mode="anchor")
+
+# Loop over data dimensions and create text annotations.
+for i in range(len(pNames)):
+    for j in range(len(rNames)):
+        text = ax.text(j, i, M_usr_x_rest_rank[i, j],
+                       ha="center", va="center", color="w")
+
+plt.show()
+fileName = str(projectName + '/HeatmapofPersonxRestaurantCompatibilityRankScores.png')  # assumes projectName exists from above
+plt.savefig(fileName)
+plt.close()
+print("After looking heatmaps generated in %s it is while there are some people that may stand out it would be better to plot the principle components")
+
+pca = PCA(n_components=2)
+pca.fit(P)
+peoplePca = pca.fit_transform(P)
+print("")
+print("The results of a 2 component PCA Variance")
+print(pca.explained_variance_ratio_)
+
+fig, ax = plt.subplots(figsize=(10, 10))
+ax.set_title('Principle Component Plot of the Lunch Crowd')  # name hist by variable
+plt.scatter(peoplePca[:,0], peoplePca[:,1])
+ax.grid()
+
+for i, name in enumerate(pNames):
+    ax.annotate(name, (peoplePca[i][0], peoplePca[i][1]))
+
+plt.show()
+fileName = str(projectName + '/PrincipleComponentPeoplePlot.png')  # assumes projectName exists from above
+plt.savefig(fileName)
+plt.close()
+print("")
+print("After looking at the combinations of the two graphs William and Marible seem to stand out as potential problems details can be seen in the .PNG in %s" %projectName)
+print("")
 
 print("")
 print("----------------------------------------------------------------------------------------------------")
-print("Think of two metrics to compute the disatistifaction with the group.")
+print("Think of two metrics to compute the dissatisfaction with the group.")
 print("----------------------------------------------------------------------------------------------------")
 print("")
-print("First is the function where each person's actual score is subtracted from the restaurant averaged scores")
+print("First is a similar function to MSE, where dissatisfaction is measured as the average squared difference between each individual users restaurant score and the average score of all users for that restaurant")
 print("")
 squareDiff = np.empty([len(pNames), len(rNames)], dtype = int)
 for row in range(len(rNames)):
@@ -349,28 +351,45 @@ for row in range(len(rNames)):
         squareDiff[row][col] = np.square((M_usr_x_rest[row][col] - np.mean(M_usr_x_rest[:,col])))
 
 meanSquare = np.mean(squareDiff)
-print(meanSquare)
+print("MSE":, str(meanSquare))
 print("")
+
 
 print("Second is the function where each person's actual ranking is subtracted from the groups average rating, squared, summed & averaged")
 print("")
 
-# print("")
-# print("----------------------------------------------------------------------------------------------------")
-# print("Should you split in two groups today?")
-# print("----------------------------------------------------------------------------------------------------")
-# print("")
-#
-# print("----------------------------------------------------------------------------------------------------")
-# print("Ok. Now you just found out the boss is paying for the meal. How should you adjust. Now what is best restaurant?")
-# print("----------------------------------------------------------------------------------------------------")
-# print("")
-# print("My first thought would be to convert everyones cost to 1 meaning cost is no longer an issue and determine the new scores")
-# print("")
-#
-#
-# print("----------------------------------------------------------------------------------------------------")
-# print("Tommorow you visit another team. You have the same restaurants and they told you their optimal ordering for restaurants.  Can you find their weight matrix?")
-# print('')
-# print("Assuming you have everyone's individual rankings you can determine a similar weighting.")
-# print("")
+print("")
+print("----------------------------------------------------------------------------------------------------")
+print("Should you split in two groups today?")
+print("----------------------------------------------------------------------------------------------------")
+print("")
+
+print("----------------------------------------------------------------------------------------------------")
+print("Ok. Now you just found out the boss is paying for the meal. How should you adjust. Now what is best restaurant?")
+print("----------------------------------------------------------------------------------------------------")
+print("")
+print("My first thought would be to convert everyones cost to 1 meaning cost is no longer an issue and determine the new scores")
+print("")
+
+P[:,1] = 1
+
+M_usr_x_rest = np.matmul(R, P.T)
+
+M_usr_x_rest[M_usr_x_rest > 300] = 300
+M_usr_x_rest[M_usr_x_rest < 70] = 70
+
+rawScore = np.sum(M_usr_x_rest, axis = 0)
+restRawScore = sorted(zip(rNames, map(lambda x: round(x, 4), list(rawScore))), reverse=True, key = lambda t: t[1])
+
+print('The final sorted restaurant by raw score are shown below.')
+for r in restRawScore:
+    print(r)
+print("")
+
+print("From this we see that new restaurant choice is Recess, which is very similar to the other top choice Bounty, however it is interesting that Bounty is actually the more expensive restaurant")
+
+print("----------------------------------------------------------------------------------------------------")
+print("Tommorow you visit another team. You have the same restaurants and they told you their optimal ordering for restaurants.  Can you find their weight matrix?")
+print('')
+print("Assuming you have everyone's individual rankings you can determine a similar weighting.")
+print("")
