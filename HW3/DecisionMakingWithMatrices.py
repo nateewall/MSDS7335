@@ -12,6 +12,7 @@ import os
 from scipy.stats import rankdata
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
+from sklearn.cluster import KMeans
 
 random.seed(3)
 
@@ -84,7 +85,7 @@ print("-------------------------------------------------------------------------
 
 def matrixDict(dictName, names):
     varNames = list(dictName[names[0]].keys())  # get the survey var names
-    dtype = dict(names = varNames, formats=(['i4'] * len(varNames))) #structure for array
+    dtype = dict(names = varNames, formats=(['float64'] * len(varNames))) #structure for array
 
     M = np.zeros(len(names), dtype = dtype)
 
@@ -208,7 +209,7 @@ print("")
 print("----------------------------------------------------------------------------------------------------")
 print('Now convert each row in the M_usr_x_rest into a ranking for each user and call it M_usr_x_rest_rank.   Do the same as above to generate the optimal resturant choice.')
 print("----------------------------------------------------------------------------------------------------")
-tmp = np.empty([len(pNames), len(rNames)], dtype = int)
+tmp = np.empty([len(pNames), len(rNames)], dtype = float)
 for n in enumerate(rNames):
     tmp[n[0]] = rankdata(M_usr_x_rest[n[0]], method='dense')
 
@@ -246,8 +247,19 @@ print("For example in our data the issue is really driven by the outliers so we 
 M_usr_x_rest[M_usr_x_rest > 350] = 350
 M_usr_x_rest[M_usr_x_rest < 70] = 70
 
-# print("")
-# print(M_usr_x_rest)
+print("")
+print("We can scale the data using the min & max of the entire matrix which which gives us the following matrix which we will use the remainder of the HW")
+
+
+M_usr_x_rest -= M_usr_x_rest.min()
+
+M_usr_x_rest /= (M_usr_x_rest.max() - M_usr_x_rest.min())
+
+M_usr_x_rest = np.round(M_usr_x_rest , 2)
+
+print("")
+print(M_usr_x_rest)
+
 rawScore = np.sum(M_usr_x_rest, axis = 0)
 restRawScore = sorted(zip(rNames, map(lambda x: round(x, 4), list(rawScore))), reverse=True, key = lambda t: t[1])
 print("")
@@ -335,7 +347,11 @@ fileName = str(projectName + '/PrincipleComponentPeoplePlot.png')  # assumes pro
 plt.savefig(fileName)
 plt.close()
 print("")
-print("After looking at the combinations of the two graphs William and Marible seem to stand out as potential problems details can be seen in the .PNG in %s" %projectName)
+print("After looking at the combinations of the two graphs William and Marible seem to stand out as potential problems.")
+print("")
+print("Their preferences in the heatmap and the distance from other lunch goers in the PCA makes it difficult to identify a choice that satisfies both these two and the group. ")
+print("")
+print("Details can be seen in the .PNG in %s" %projectName)
 print("")
 
 print("")
@@ -345,17 +361,26 @@ print("-------------------------------------------------------------------------
 print("")
 print("First is a similar function to MSE, where dissatisfaction is measured as the average squared difference between each individual users restaurant score and the average score of all users for that restaurant")
 print("")
-squareDiff = np.empty([len(pNames), len(rNames)], dtype = int)
-for row in range(len(rNames)):
-    for col in range(len(pNames)):
-        squareDiff[row][col] = np.square((M_usr_x_rest[row][col] - np.mean(M_usr_x_rest[:,col])))
+squareDiff = np.empty([len(pNames), len(rNames)], dtype = float)
+for row in range(len(pNames)):
+    for col in range(len(rNames)):
+        squareDiff[row][col] = np.square((M_usr_x_rest[row][col] - np.mean(M_usr_x_rest)))
 
-meanSquare = np.mean(squareDiff)
-print("MSE":, str(meanSquare))
+
+meanSquare = round(np.mean(squareDiff), 4)
+
+print("MSE:", str(meanSquare))
 print("")
 
 
-print("Second is the function where each person's actual ranking is subtracted from the groups average rating, squared, summed & averaged")
+print("Second we will measure the distance between all the individual people. The larger the total distance for the entire group means the more people that would be disappointed regardless of the choice")
+print("")
+distance = 0
+for p in P:
+    for p2 in P:
+        distance += np.sqrt(sum([(a - b) ** 2 for a, b in zip(list(p), list(p2))]))
+
+print("Euclidean Distance:", str(round(distance,4)))
 print("")
 
 print("")
@@ -363,6 +388,59 @@ print("-------------------------------------------------------------------------
 print("Should you split in two groups today?")
 print("----------------------------------------------------------------------------------------------------")
 print("")
+print("To determine if we want to split into 2 groups we will see if make")
+kmeans = KMeans(n_clusters=2, random_state=0).fit_predict(P)
+
+pca = PCA(n_components=2)
+pca.fit(P)
+peoplePca = pca.fit_transform(P)
+
+fig, ax = plt.subplots(figsize=(10, 10))
+ax.set_title('Clustered PCA Plot of the Lunch Crowd')  # name hist by variable
+plt.scatter(peoplePca[:,0], peoplePca[:,1], c=kmeans)
+ax.grid()
+
+for i, name in enumerate(pNames):
+    ax.annotate(name, (peoplePca[i][0], peoplePca[i][1]))
+
+plt.show()
+fileName = str(projectName + '/ClusteredPeoplePlot.png')  # assumes projectName exists from above
+plt.savefig(fileName)
+plt.close()
+print("")
+
+print("The plot seen in ClusteredPeoplePlot.png shows that there are two equal groups of people that can be linearly seperated. However, would they choose different restaturants?")
+print("")
+
+rawScore0 = np.sum(M_usr_x_rest[kmeans==0], axis = 0)
+restRawScore0 = sorted(zip(rNames, map(lambda x: round(x, 4), list(rawScore0))), reverse=True, key = lambda t: t[1])
+
+rawScore1 = np.sum(M_usr_x_rest[kmeans==1], axis = 0)
+restRawScore1 = sorted(zip(rNames, map(lambda x: round(x, 4), list(rawScore1))), reverse=True, key = lambda t: t[1])
+
+print('The optimal restaurant for Group 0 is:')
+print(restRawScore0[0])
+print("")
+print('The optimal restaurant for Group 1 is:')
+print(restRawScore1[0])
+print("")
+
+print("It does look like there are 2 different groups that could be divided, one that would prefer Recess the other Bounty, then lets see if this reduces the loss in our one restaurant model.")
+
+print("")
+for k in range(0,2):
+    group = P[kmeans==k]
+    distance = 0
+    for p in group:
+        for p2 in group:
+            distance += np.sqrt(sum([(a - b) ** 2 for a, b in zip(list(p), list(p2))]))
+    print("The distance for group %s" %str(k))
+    print("Euclidean Distance:", str(round(distance,4)))
+    print("")
+
+print("")
+print("Considering the two groups prefer two different restaurants and the splitting the groups reduce the overall dissatisfaction it may be best to split our group based on the clusters defined.")
+
 
 print("----------------------------------------------------------------------------------------------------")
 print("Ok. Now you just found out the boss is paying for the meal. How should you adjust. Now what is best restaurant?")
@@ -377,6 +455,10 @@ M_usr_x_rest = np.matmul(R, P.T)
 
 M_usr_x_rest[M_usr_x_rest > 300] = 300
 M_usr_x_rest[M_usr_x_rest < 70] = 70
+M_usr_x_rest -= M_usr_x_rest.min()
+M_usr_x_rest /= (M_usr_x_rest.max() - M_usr_x_rest.min())
+M_usr_x_rest = np.round(M_usr_x_rest , 2)
+
 
 rawScore = np.sum(M_usr_x_rest, axis = 0)
 restRawScore = sorted(zip(rNames, map(lambda x: round(x, 4), list(rawScore))), reverse=True, key = lambda t: t[1])
@@ -393,3 +475,4 @@ print("Tommorow you visit another team. You have the same restaurants and they t
 print('')
 print("Assuming you have everyone's individual rankings you can determine a similar weighting.")
 print("")
+
