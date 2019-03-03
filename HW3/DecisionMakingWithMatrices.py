@@ -446,10 +446,10 @@ print("-------------------------------------------------------------------------
 print("Ok. Now you just found out the boss is paying for the meal. How should you adjust. Now what is best restaurant?")
 print("----------------------------------------------------------------------------------------------------")
 print("")
-print("My first thought would be to convert everyones cost to 1 meaning cost is no longer an issue and determine the new scores")
+print("My first thought would be to convert everyones cost to 0 effectively removing cost entirely as potential feature to consider when making a decision")
 print("")
 
-P[:,1] = 1
+P[:,1] = 0
 
 M_usr_x_rest = np.matmul(R, P.T)
 
@@ -472,7 +472,33 @@ print("From this we see that new restaurant choice is Recess, which is very simi
 
 print("----------------------------------------------------------------------------------------------------")
 print("Tommorow you visit another team. You have the same restaurants and they told you their optimal ordering for restaurants.  Can you find their weight matrix?")
-print('')
-print("Assuming you have everyone's individual rankings you can determine a similar weighting.")
 print("")
+print("Assuming you have everyone's individual rankings you can estimate a weight matrix using matrix M_Rest and the groups ranks")
+print("")
+print("One condition that makes this difficult is that I have a non square matrix (M_Restuarant), so I cannot simply solve for the linear equation, but rather estimate it using a least square approach.")
+R = M_restaurants.view(M_restaurants.dtype[0]).reshape(len(M_restaurants) , -1)
+# print(R)
 
+
+M_usr_x_rest_rank2 = np.empty([len(pNames), len(rNames)], dtype = float)
+M_people2 = np.empty([10,6], dtype = float)
+
+for i in range(len(pNames)):
+    M_usr_x_rest_rank2[i] = np.random.choice(10, size=10, replace = False) + 1
+    M_people2[i] = np.round((np.linalg.lstsq(R, M_usr_x_rest_rank2[i], rcond = None)[0]), 4)
+
+
+print("First I created a new random set of 10 people with all the restaurant rankings between 1 to 10 with 10 being the most compatible or favorite choice")
+print("")
+print(M_usr_x_rest_rank2)
+
+print("Then using least squares estimation then rescaling the values between 0 to 1 for easier interpretation we are able to get the weight matrix for the 10 new people")
+print("")
+M_people2 -= M_people2.min()
+
+M_people2 /= (M_people2.max() - M_people2.min())
+
+M_people2 = np.round(M_people2 , 2)
+print(M_people2)
+
+print("Meaning you would be able to interpret each person (row) using the original interpretation defined originally, but just just going from a 0 to 1 scale rather than a 1 to 10.")
