@@ -1,0 +1,302 @@
+----------------------------------------------------------------------------------------------------
+You asked your 10 work friends to answer a survey. They gave you back the following dictionary object.
+----------------------------------------------------------------------------------------------------
+
+Wayne
+{'travelDistance': 3, 'cost': 6, 'instagrammable': 10, 'busy': 8, 'vegetarian': 10, 'institution': 2}
+Spencer
+{'travelDistance': 8, 'cost': 5, 'instagrammable': 9, 'busy': 4, 'vegetarian': 4, 'institution': 8}
+Judy
+{'travelDistance': 3, 'cost': 4, 'instagrammable': 3, 'busy': 9, 'vegetarian': 7, 'institution': 1}
+William
+{'travelDistance': 10, 'cost': 1, 'instagrammable': 5, 'busy': 1, 'vegetarian': 5, 'institution': 8}
+Cassandra
+{'travelDistance': 7, 'cost': 7, 'instagrammable': 10, 'busy': 8, 'vegetarian': 3, 'institution': 6}
+James
+{'travelDistance': 8, 'cost': 4, 'instagrammable': 5, 'busy': 7, 'vegetarian': 5, 'institution': 7}
+Valerie
+{'travelDistance': 9, 'cost': 10, 'instagrammable': 7, 'busy': 10, 'vegetarian': 4, 'institution': 6}
+Jaime
+{'travelDistance': 10, 'cost': 3, 'instagrammable': 6, 'busy': 9, 'vegetarian': 10, 'institution': 10}
+Francis
+{'travelDistance': 4, 'cost': 10, 'instagrammable': 5, 'busy': 5, 'vegetarian': 2, 'institution': 2}
+Maribel
+{'travelDistance': 8, 'cost': 2, 'instagrammable': 6, 'busy': 2, 'vegetarian': 7, 'institution': 3}
+
+----------------------------------------------------------------------------------------------------
+Transform the user data into a matrix(M_people). Keep track of column and row ids.
+----------------------------------------------------------------------------------------------------
+[( 3.,  6., 10.,  8., 10.,  2.) ( 8.,  5.,  9.,  4.,  4.,  8.)
+ ( 3.,  4.,  3.,  9.,  7.,  1.) (10.,  1.,  5.,  1.,  5.,  8.)
+ ( 7.,  7., 10.,  8.,  3.,  6.) ( 8.,  4.,  5.,  7.,  5.,  7.)
+ ( 9., 10.,  7., 10.,  4.,  6.) (10.,  3.,  6.,  9., 10., 10.)
+ ( 4., 10.,  5.,  5.,  2.,  2.) ( 8.,  2.,  6.,  2.,  7.,  3.)]
+[('travelDistance', '<f8'), ('cost', '<f8'), ('instagrammable', '<f8'), ('busy', '<f8'), ('vegetarian', '<f8'), ('institution', '<f8')]
+
+----------------------------------------------------------------------------------------------------
+Next you collected data from an internet website. You got the following information.
+----------------------------------------------------------------------------------------------------
+The Caribbean Flower
+{'travelDistance': 1, 'cost': 5, 'instagrammable': 7, 'busy': 7, 'vegetarian': 2, 'institution': 1}
+The Coriander Bites
+{'travelDistance': 10, 'cost': 10, 'instagrammable': 1, 'busy': 7, 'vegetarian': 10, 'institution': 6}
+The Indian Lane
+{'travelDistance': 9, 'cost': 5, 'instagrammable': 9, 'busy': 4, 'vegetarian': 1, 'institution': 5}
+The Italian Empress
+{'travelDistance': 1, 'cost': 2, 'instagrammable': 2, 'busy': 10, 'vegetarian': 9, 'institution': 1}
+The Juniper Window
+{'travelDistance': 4, 'cost': 7, 'instagrammable': 5, 'busy': 10, 'vegetarian': 5, 'institution': 3}
+Chance
+{'travelDistance': 1, 'cost': 6, 'instagrammable': 6, 'busy': 6, 'vegetarian': 3, 'institution': 7}
+Bounty
+{'travelDistance': 7, 'cost': 8, 'instagrammable': 9, 'busy': 7, 'vegetarian': 10, 'institution': 9}
+Recess
+{'travelDistance': 2, 'cost': 10, 'instagrammable': 9, 'busy': 5, 'vegetarian': 7, 'institution': 4}
+Sunset
+{'travelDistance': 5, 'cost': 7, 'instagrammable': 5, 'busy': 9, 'vegetarian': 5, 'institution': 9}
+Lemon Grass
+{'travelDistance': 6, 'cost': 1, 'instagrammable': 7, 'busy': 10, 'vegetarian': 6, 'institution': 1}
+
+----------------------------------------------------------------------------------------------------
+Transform the restaurant data into a matrix(M_restaurants) use the same column index.
+----------------------------------------------------------------------------------------------------
+
+[( 1.,  5., 7.,  7.,  2., 1.) (10., 10., 1.,  7., 10., 6.)
+ ( 9.,  5., 9.,  4.,  1., 5.) ( 1.,  2., 2., 10.,  9., 1.)
+ ( 4.,  7., 5., 10.,  5., 3.) ( 1.,  6., 6.,  6.,  3., 7.)
+ ( 7.,  8., 9.,  7., 10., 9.) ( 2., 10., 9.,  5.,  7., 4.)
+ ( 5.,  7., 5.,  9.,  5., 9.) ( 6.,  1., 7., 10.,  6., 1.)]
+[('travelDistance', '<f8'), ('cost', '<f8'), ('instagrammable', '<f8'), ('busy', '<f8'), ('vegetarian', '<f8'), ('institution', '<f8')]
+
+----------------------------------------------------------------------------------------------------
+The most imporant idea in this project is the idea of a linear combination.
+----------------------------------------------------------------------------------------------------
+
+Informally describe what a linear combination is and how it will relate to our restaurant matrix.
+
+Linear combination is the idea that given a matrix of data and corresponding weights of each feature of that matrix we can determine optimal decision/ranking
+
+Alternatively, given a matrix or vector and the scores/rankings we can determine the weights that would produce that output
+
+So for our examples given the characteristics of several restaurants and the weights each person places on those characteristics we can determine an optimal restaurant
+
+Similarly if we are given those restaurant charactertics and the all the peoples rankings of the rest. we can determine everyones preferences
+
+----------------------------------------------------------------------------------------------------
+Choose a person and compute (using a linear combination) the top restaurant for them.  What does each entry in the resulting vector represent.
+----------------------------------------------------------------------------------------------------
+
+The top restaurant for Wayne and score is:
+('Bounty', 333.0)
+
+Each score in the resulting vector represents their compatibility with that restaurant based on the similarity between their preferences and the restaurants characteristics
+
+----------------------------------------------------------------------------------------------------
+Next compute a new matrix (M_usr_x_rest  i.e. an user by restaurant) from all people.  What does the a_ij matrix represent?
+----------------------------------------------------------------------------------------------------
+[[181. 140. 122.  75. 180. 129. 192. 160. 130.  91.]
+ [268. 255. 212. 220. 272. 266. 343. 359. 212. 208.]
+ [199. 238. 122. 189. 253. 205. 268. 255. 163. 166.]
+ [207. 120. 171.  85. 154. 148. 185. 218. 104. 110.]
+ [240. 196. 183. 131. 240. 201. 279. 261. 177. 140.]
+ [191. 184. 127. 123. 208. 168. 225. 218. 144. 110.]
+ [333. 317. 222. 252. 335. 295. 370. 401. 226. 237.]
+ [274. 227. 171. 147. 259. 199. 283. 259. 200. 161.]
+ [247. 248. 183. 188. 275. 244. 314. 322. 188. 164.]
+ [236. 188. 176. 144. 223. 194. 243. 265. 133. 157.]]
+
+Each ijth value represents an individual users score or preference for that type of restaurant with higher scores meaning a greater preference
+
+----------------------------------------------------------------------------------------------------
+Sum all columns in M_usr_x_rest to get optimal restaurant for all users.  What do the entry’s represent?
+----------------------------------------------------------------------------------------------------
+The final sorted restaurant by raw score are shown below.
+('Recess', 2718.0)
+('Bounty', 2702.0)
+('The Juniper Window', 2399.0)
+('The Caribbean Flower', 2376.0)
+('The Coriander Bites', 2113.0)
+('Chance', 2049.0)
+('The Indian Lane', 1689.0)
+('Sunset', 1677.0)
+('The Italian Empress', 1554.0)
+('Lemon Grass', 1544.0)
+
+Each value represents the the total compatibility for all the restaurants for the entire group. The goal would be that higher values represent greater overall compatibility.
+
+One issue with scoring this way is if one person is very highly compatible with a restaurant this may drive up the entire overall score
+
+----------------------------------------------------------------------------------------------------
+Now convert each row in the M_usr_x_rest into a ranking for each user and call it M_usr_x_rest_rank.   Do the same as above to generate the optimal resturant choice.
+----------------------------------------------------------------------------------------------------
+[[ 9.  6.  3.  1.  8.  4. 10.  7.  5.  2.]
+ [ 6.  4.  2.  3.  7.  5.  8.  9.  2.  1.]
+ [ 5.  7.  1.  4.  8.  6. 10.  9.  2.  3.]
+ [ 9.  4.  7.  1.  6.  5.  8. 10.  2.  3.]
+ [ 7.  5.  4.  1.  7.  6.  9.  8.  3.  2.]
+ [ 7.  6.  3.  2.  8.  5. 10.  9.  4.  1.]
+ [ 7.  6.  1.  4.  8.  5.  9. 10.  2.  3.]
+ [ 8.  6.  3.  1.  7.  4.  9.  7.  5.  2.]
+ [ 5.  6.  2.  3.  7.  4.  8.  9.  3.  1.]
+ [ 8.  5.  4.  2.  7.  6.  9. 10.  1.  3.]]
+
+The final sorted restaurant by ranks scores are shown below, higher values mean more compatible for the group.
+('Bounty', 90.0)
+('Recess', 88.0)
+('The Juniper Window', 73.0)
+('The Caribbean Flower', 71.0)
+('The Coriander Bites', 55.0)
+('Chance', 50.0)
+('The Indian Lane', 30.0)
+('Sunset', 29.0)
+('The Italian Empress', 22.0)
+('Lemon Grass', 21.0)
+
+----------------------------------------------------------------------------------------------------
+Why is there a difference between the two?  What problem arrives?  What does represent in the real world?
+----------------------------------------------------------------------------------------------------
+
+The most compatible restaurant for the group is different between the raw sum & the sum on the order statistics
+
+This is driven by the fact that certain people have really high raw scores for the restaurant 'Recess' however, that rank value helps reduce the impact of those elevated scores
+
+In the real world this could be related to the people that may have really strong preferences can often times sway the entire group to their preferences.
+
+----------------------------------------------------------------------------------------------------
+How should you preprocess your data to remove this problem.
+----------------------------------------------------------------------------------------------------
+
+One potential method would be setting min & max values for each ij to prevent letting any value over weight the final solution
+
+For example in our data the issue is really driven by the outliers so we will snap all values over 350 to 350 & values less than 70 to 70
+
+We can scale the data using the min & max of the entire matrix which which gives us the following matrix which we will use the remainder of the HW
+
+[[0.39 0.24 0.17 0.   0.38 0.2  0.43 0.31 0.2  0.06]
+ [0.7  0.65 0.5  0.53 0.72 0.69 0.97 1.   0.5  0.48]
+ [0.45 0.59 0.17 0.41 0.65 0.47 0.7  0.65 0.32 0.33]
+ [0.48 0.16 0.35 0.04 0.29 0.27 0.4  0.52 0.11 0.13]
+ [0.6  0.44 0.39 0.2  0.6  0.46 0.74 0.68 0.37 0.24]
+ [0.42 0.4  0.19 0.17 0.48 0.34 0.55 0.52 0.25 0.13]
+ [0.94 0.88 0.53 0.64 0.95 0.8  1.   1.   0.55 0.59]
+ [0.72 0.55 0.35 0.26 0.67 0.45 0.76 0.67 0.45 0.31]
+ [0.63 0.63 0.39 0.41 0.73 0.61 0.87 0.9  0.41 0.32]
+ [0.59 0.41 0.37 0.25 0.54 0.43 0.61 0.69 0.21 0.3 ]]
+
+The new optimal sorting for all restaurants after this preprocessing is now.
+('Bounty', 7.03)
+('Recess', 6.94)
+('The Juniper Window', 6.01)
+('The Caribbean Flower', 5.92)
+('The Coriander Bites', 4.95)
+('Chance', 4.72)
+('The Indian Lane', 3.41)
+('Sunset', 3.37)
+('The Italian Empress', 2.91)
+('Lemon Grass', 2.89)
+
+As we see this now produces the same results of ranking
+
+----------------------------------------------------------------------------------------------------
+Find user profiles that are problematic, explain why?
+----------------------------------------------------------------------------------------------------
+
+
+
+After looking at the combinations of the two graphs William and Marible seem to stand out as potential problems.
+
+Their preferences in the heatmap and the distance from other lunch goers in the PCA makes it difficult to identify a choice that satisfies both these two and the group. 
+
+Details can be seen in the .PNG in /RestaurantSelection
+
+
+----------------------------------------------------------------------------------------------------
+Think of two metrics to compute the dissatisfaction with the group.
+----------------------------------------------------------------------------------------------------
+
+First is a similar function to MSE, where dissatisfaction is measured as the average squared difference between each individual users restaurant score and the average score of all users for that restaurant
+
+MSE: 0.0542
+
+Second we will measure the distance between all the individual people. The larger the total distance for the entire group means the more people that would be disappointed regardless of the choice
+
+Euclidean Distance: 867.403
+
+
+----------------------------------------------------------------------------------------------------
+Should you split in two groups today?
+----------------------------------------------------------------------------------------------------
+
+To determine if we want to split into 2 groups we will see if it improves on our loss function or changes any choices
+
+The plot seen in ClusteredPeoplePlot.png shows that there are two equal groups of people that can be linearly seperated. However, would they choose different restaturants?
+
+The optimal restaurant for Group 0 is:
+('Recess', 3.4)
+
+The optimal restaurant for Group 1 is:
+('Bounty', 3.74)
+
+It does look like there are 2 different groups that could be divided, one that would prefer Recess the other Bounty, then lets see if this reduces the loss in our one restaurant model.
+
+The distance for group 0
+Euclidean Distance: 151.7408
+
+The distance for group 1
+Euclidean Distance: 183.3445
+
+
+Considering the two groups prefer two different restaurants and the splitting the groups reduce the overall dissatisfaction it may be best to split our group based on the clusters defined.
+----------------------------------------------------------------------------------------------------
+Ok. Now you just found out the boss is paying for the meal. How should you adjust. Now what is best restaurant?
+----------------------------------------------------------------------------------------------------
+
+My first thought would be to convert everyones cost to 0 effectively removing cost entirely as potential feature to consider when making a decision
+
+The final sorted restaurant by raw score are shown below.
+('Recess', 7.52)
+('Bounty', 6.04)
+('The Caribbean Flower', 5.7)
+('The Juniper Window', 5.53)
+('The Coriander Bites', 4.83)
+('Chance', 4.8)
+('The Italian Empress', 3.45)
+('The Indian Lane', 3.23)
+('Lemon Grass', 3.14)
+('Sunset', 1.59)
+
+From this we see that new restaurant choice is Recess, which is very similar to the other top choice Bounty, however it is interesting that Bounty is actually the more expensive restaurant
+----------------------------------------------------------------------------------------------------
+Tommorow you visit another team. You have the same restaurants and they told you their optimal ordering for restaurants.  Can you find their weight matrix?
+
+Assuming you have everyone's individual rankings you can estimate a weight matrix using matrix M_Rest and the groups ranks
+
+One condition that makes this difficult is that I have a non square matrix (M_Restuarant), so I cannot simply solve for the linear equation, but rather estimate it using a least square approach.
+
+First I created a new random set of 10 people with all the restaurant rankings between 1 to 10 with 10 being the most compatible or favorite choice
+
+[[ 1.  2.  4.  8.  3. 10.  7.  5.  9.  6.]
+ [ 5.  9.  1. 10.  2.  4.  6.  8.  3.  7.]
+ [ 1.  5.  8.  9.  4.  6.  3.  2.  7. 10.]
+ [ 2.  8.  3.  1.  5.  4. 10.  7.  6.  9.]
+ [ 8.  9.  7.  4.  2.  3. 10.  5.  6.  1.]
+ [ 3.  5.  4.  9.  7.  6.  8. 10.  1.  2.]
+ [ 2.  3.  4. 10.  7.  5.  1.  6.  9.  8.]
+ [ 9.  3.  6.  5. 10.  1.  2.  8.  7.  4.]
+ [ 9.  3.  8.  2.  6.  1.  4.  5.  7. 10.]
+ [ 7.  8.  5.  1.  9. 10.  6.  3.  2.  4.]]
+
+Then using least squares estimation then rescaling the values between 0 to 1 for easier interpretation we are able to get the weight matrix for the 10 new people
+
+[[0.15 0.05 0.56 0.65 0.56 1.  ]
+ [0.34 0.48 0.5  0.46 0.93 0.19]
+ [0.63 0.05 0.47 0.82 0.39 0.58]
+ [0.57 0.38 0.58 0.36 0.68 0.48]
+ [0.55 0.61 0.52 0.34 0.53 0.47]
+ [0.19 0.64 0.64 0.35 0.81 0.25]
+ [0.32 0.35 0.39 0.95 0.35 0.46]
+ [0.41 0.92 0.51 0.85 0.06 0.  ]
+ [0.68 0.47 0.7  0.77 0.11 0.13]
+ [0.49 0.81 0.4  0.7  0.12 0.36]]
+
+Meaning you would be able to interpret each person (row) using the original interpretation defined originally, but just going from a 0 to 1 scale rather than a 1 to 10.

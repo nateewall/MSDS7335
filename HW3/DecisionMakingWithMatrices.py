@@ -325,14 +325,13 @@ plt.show()
 fileName = str(projectName + '/HeatmapofPersonxRestaurantCompatibilityRankScores.png')  # assumes projectName exists from above
 plt.savefig(fileName)
 plt.close()
-print("After looking heatmaps generated in %s it is while there are some people that may stand out it would be better to plot the principle components")
 
 pca = PCA(n_components=2)
 pca.fit(P)
 peoplePca = pca.fit_transform(P)
 print("")
-print("The results of a 2 component PCA Variance")
-print(pca.explained_variance_ratio_)
+# print("The results of a 2 component PCA Variance")
+# print(pca.explained_variance_ratio_)
 
 fig, ax = plt.subplots(figsize=(10, 10))
 ax.set_title('Principle Component Plot of the Lunch Crowd')  # name hist by variable
@@ -351,7 +350,7 @@ print("After looking at the combinations of the two graphs William and Marible s
 print("")
 print("Their preferences in the heatmap and the distance from other lunch goers in the PCA makes it difficult to identify a choice that satisfies both these two and the group. ")
 print("")
-print("Details can be seen in the .PNG in %s" %projectName)
+print("Details can be seen in the .PNG in /%s" %projectName)
 print("")
 
 print("")
@@ -388,7 +387,7 @@ print("-------------------------------------------------------------------------
 print("Should you split in two groups today?")
 print("----------------------------------------------------------------------------------------------------")
 print("")
-print("To determine if we want to split into 2 groups we will see if make")
+print("To determine if we want to split into 2 groups we will see if it improves on our loss function or changes any choices")
 kmeans = KMeans(n_clusters=2, random_state=0).fit_predict(P)
 
 pca = PCA(n_components=2)
@@ -476,6 +475,7 @@ print("")
 print("Assuming you have everyone's individual rankings you can estimate a weight matrix using matrix M_Rest and the groups ranks")
 print("")
 print("One condition that makes this difficult is that I have a non square matrix (M_Restuarant), so I cannot simply solve for the linear equation, but rather estimate it using a least square approach.")
+print("")
 R = M_restaurants.view(M_restaurants.dtype[0]).reshape(len(M_restaurants) , -1)
 # print(R)
 
@@ -492,6 +492,7 @@ print("First I created a new random set of 10 people with all the restaurant ran
 print("")
 print(M_usr_x_rest_rank2)
 
+print("")
 print("Then using least squares estimation then rescaling the values between 0 to 1 for easier interpretation we are able to get the weight matrix for the 10 new people")
 print("")
 M_people2 -= M_people2.min()
@@ -500,5 +501,5 @@ M_people2 /= (M_people2.max() - M_people2.min())
 
 M_people2 = np.round(M_people2 , 2)
 print(M_people2)
-
-print("Meaning you would be able to interpret each person (row) using the original interpretation defined originally, but just just going from a 0 to 1 scale rather than a 1 to 10.")
+print("")
+print("Meaning you would be able to interpret each person (row) using the original interpretation defined originally, but just going from a 0 to 1 scale rather than a 1 to 10.")
